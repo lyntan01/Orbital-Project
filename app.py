@@ -123,9 +123,7 @@ def using():
 
 @app.route('/logout')
 def logout():
-    # Remove session data, this will log the user out
     session.pop('loggedin', None)
     session.pop('member_id', None)
     session.pop('name', None)
-    # Redirect to login page
     return redirect(url_for('login'))
