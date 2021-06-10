@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>THE CURIOUS CASE OF COSMETICS</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style3.css') }}">
+</head>
+<body>
+    <div class = "wrapper">
+        <div class="sidebar">
+            <h2>My Products</h2>
+            <ul>
+                <li><a href="#">My Beauty Routine</a></li>
+                <li><a href="{{url_for('shelve')}}">Shelve</a></li>
+                <li><a href="{{url_for('using')}}">Currently Using</a></li>
+                <li><a href="{{url_for('wishlist')}}">Wishlist</a></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
