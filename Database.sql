@@ -65,7 +65,7 @@ CREATE TABLE Uses (
 												(frequency = 1 AND `frequency_type` = 'Daily')),
     specific_days 		VARCHAR(100) DEFAULT 0,
     expiry_date 		DATE,
-    routine_category 	VARCHAR(5) CHECK (routine_category IN ('Day', 'Nght', 'Both')) DEFAULT 'Both',
+    routine_category 	VARCHAR(5) CHECK (routine_category IN ('Day', 'Night', 'Both')) DEFAULT 'Both',
     used_date 			DATE NOT NULL,
     PRIMARY KEY (username, product_name),
     FOREIGN KEY (username) REFERENCES `Member User`(username) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -90,4 +90,15 @@ CREATE TABLE Wishes (
     
 INSERT INTO `Member User` VALUES('kx_ein', 'ke xin', 'xie', 'F', 'bleh', 'gmail');
 INSERT INTO `Member User` VALUES('lyntanrambutan', 'Lyn', 'Tan', 'F', 'jeno', 'gmail.com');
+
+INSERT INTO `Shelves` VALUES('kx_ein', 'Concealer','2019-07-18');
+INSERT INTO `Uses` VALUES('lyntanrambutan', 'Eyeshawdow','Daily',1,0,'2022-05-06', 'Day', '2021-05-06');
+INSERT INTO `Uses` VALUES('lyntanrambutan', 'Essence','Daily',1,0,'2022-05-06', 'Night', '2021-05-06');
+INSERT INTO `Uses` VALUES('lyntanrambutan', 'Cleanser','Daily',1,0,'2022-05-06', 'Both', '2021-05-06');
+
+INSERT INTO `Product` VALUES('Concealer', 'Tarte', 'Makeup', '4.5', null);
+INSERT INTO `Product` VALUES('Eyeshawdow', 'Too Faced', 'Makeup', '4.3', null);
+INSERT INTO `Product` VALUES('Essence', 'Fresh', 'Skincare', '4.3', null);
+
+
 

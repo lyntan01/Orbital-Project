@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Markup
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import datetime
@@ -34,7 +34,7 @@ def login():
         if account:
             session['loggedin'] = True
             session['username'] = account['username']
-            return redirect(url_for('shelve'))
+            return redirect(url_for('routine'))
     
         else:
             msg = 'Incorrect username/password! Try again!'
@@ -121,9 +121,54 @@ def using():
             products.append(row)
         return render_template('using.html', products=products)
 
+@app.route('/routine', methods=['GET', 'POST'])
+def routine():
+    if 'loggedin' in session:
+        products = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT DISTINCT brand, skincare_or_makeup, T1.product_name, routine_category, expiry_date, frequency_type, frequency, specific_days
+                            FROM `Uses` AS T1
+                            JOIN `Product` AS T2 
+                            ON T1.product_name = T2.product_name
+                            WHERE T1.username = %s ''', (session['username'],))
+        results = cursor.fetchall()
+        for row in results:
+            products.append(row)
+        return render_template('routine.html', products=products)
+
+
+@app.route('/deleteShelve/<string:product_name>', methods=['GET', 'POST'] )
+def delete(product_name):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(
+        'DELETE FROM `Shelves` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
+    mysql.connection.commit()
+    flash("Item Deleted!")
+    return redirect(url_for('shelve'))
+
+@app.route('/deleteWishlist/<string:product_name>', methods=['GET', 'POST'] )
+def deleteWishlist(product_name):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(
+        'DELETE FROM `Wishes` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
+    mysql.connection.commit()
+    flash("Item Deleted!")
+    return redirect(url_for('wishlist'))
+
+@app.route('/deleteUsing/<string:product_name>', methods=['GET', 'POST'] )
+def deleteUsing(product_name):
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(
+        'DELETE FROM `Uses` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
+    mysql.connection.commit()
+    flash("Item Deleted!")
+    return redirect(url_for('using'))
+
 @app.route('/logout')
 def logout():
+    # Remove session data, this will log the user out
     session.pop('loggedin', None)
     session.pop('member_id', None)
     session.pop('name', None)
+    # Redirect to login page
     return redirect(url_for('login'))
