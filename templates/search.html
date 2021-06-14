@@ -64,10 +64,10 @@
                         </select>
                         <input type="submit" value="Add" style="font-size: 0.5em;">
                     </form>
-                    
+
                 </td>
                 <td width="80" style="text-align: center; padding: 0;">
-                    <a href=# id="reviewlink">Leave a review</a>
+                    <a href="{{ url_for('review', product_name=product['product_name']) }}" id="reviewlink">Leave a review</a>
                 </td>
             </tr>
             {% endfor %}
