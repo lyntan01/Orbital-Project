@@ -235,6 +235,44 @@ def create():
         
     return render_template('create.html')
 
+@app.route('/review/<string:product_name>', methods=['GET', 'POST'])
+def review(product_name):
+    # CHANGE AFTER INTEGRATING
+    username = 'vicki'
+
+    product_name = product_name.replace("_", " ")
+
+    if request.method == 'POST' and 'rating' in request.form:
+        # Create variables for easy access
+        rating = request.form['rating']
+
+        # Check if user's review of that product already exists
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM Review WHERE username = %s AND product_name = %s', (username, product_name,))
+        result = cursor.fetchone()
+        if result:
+            msg = 'You have already left a review for this product!'
+
+        else:
+            # Insert new review into database
+            cursor = mysql.connection.cursor()
+            cursor.execute('INSERT INTO Review VALUES(%s, %s, %s)', (rating, username, product_name,))
+            mysql.connection.commit()
+            # Update average rating of product in database
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                '''UPDATE Product 
+                SET average_rating = (SELECT ROUND(AVG(rating),2) FROM Review WHERE product_name = %s) 
+                WHERE product_name = %s''', (product_name, product_name,))
+            mysql.connection.commit()
+
+            msg = 'Review successfully added!'
+        
+        search_term = product_name.replace(" ", "_")
+        return redirect('../search/' + search_term)
+
+    return render_template('review.html', product_name=product_name)
+
 @app.route('/shelve', methods=['GET', 'POST'])
 def shelve():
     return "kexin"
