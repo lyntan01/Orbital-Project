@@ -1,0 +1,70 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profileStyle.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/profileStyle.css"> -->
+    <title>My Profile</title>
+</head>
+<body>
+
+    <h1>{{ username }}'s Profile</h1>
+
+    <table class="personalInfo table1">
+        <tr>
+            <th>First Name: </th>
+            <td>{{ userInfo["first_name"] }}</td>
+        </tr>
+        <tr>
+            <th>Last Name: </th>
+            <td>{{ userInfo["last_name"] }}</td>
+        </tr>
+        <tr>
+            <th>Gender: </th>
+            <td>{{ userInfo["gender"] }}</td>
+        </tr>
+        <tr>
+            <th>Email: </th>
+            <td>{{ userInfo["email"] }}</td>
+        </tr>
+    </table>
+
+    <h2>Reviews made by {{ username }}: </h2>
+    
+    {% if reviews|length < 1 %}
+    <p style="text-align: left;">{{ username }} has not left any reviews yet.</p>
+    {% else %}
+    <table class="review table2">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td>{{ review["product_name"] }}</td>
+                <td>{{ review["brand"] }}</td>
+                <td>{{ review["skincare_or_makeup"] }}</td>
+                <td style="text-align: center;">{{ review["rating"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <!-- <br><button class="logout" type="button">Logout</button> -->
+    
+    <!-- CHANGE HREF TO "url_for('logout')" WHEN MERGING  -->
+    <div class="logout">
+        <a href=# class="logoutbutton">Logout</a>
+    </div>
+</body>
+</html>

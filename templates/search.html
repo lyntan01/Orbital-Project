@@ -1,0 +1,80 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profileStyle.css') }}">
+    <title>Search Products</title>
+</head>
+<body>
+
+    <h1 style="text-align: center;">Search our database for a product:</h1>
+
+    <form class="searchform" action = "{{ url_for('search') }}" method = "post">
+        <div class="searchbar">
+            <input type="text" name="search_term" placeholder="Type your search here..." id="search_term" required>
+        </div>
+
+        <div class="search" style="margin: 10px;">
+            <input type="submit" name="" value="Search!">
+        </div>
+        <div class="msg">{{ msg }}</div>
+    </form>
+
+    {% if post %}    
+    {% if products|length < 1 %}
+    <div class="noproduct" style="margin-top: 30px;">
+        <p style="text-align: center; margin: 0px;">No such product matched your search.</p>
+        <a href="{{ url_for('create') }}" style="text-align: center;">Click here to add a product.</a>
+    </div>  
+
+    {% else %}
+    <h2 style="text-align: center;">Search Results: </h2>
+
+    <table class="searchResults table2" style="width: 90%;">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>Average Rating</th>
+                <th style="padding: 1em 0.5em;">Add to<br>My Products</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product["product_name"] }}</td>
+                <td>{{ product["brand"] }}</td>
+                <td>{{ product["skincare_or_makeup"] }}</td>
+                <td style="text-align: center;">{{ product["average_rating"] }}</td>
+                <td width="120" style="text-align: center; padding: 0;">
+
+                    <form action = "{{ url_for('add') }}" method = "post">
+                        <input type="text" name="product_name" value="{{ product['product_name'] }}" style="display: none;">
+                        <select name="shelf" id="addDropdown" style="width: 65%;"> 
+                            <option hidden disabled selected value> </option>     
+                            <option>Currently Using</option>     
+                            <option>Shelved</option>     
+                            <option>Wish List</option>     
+                        </select>
+                        <input type="submit" value="Add" style="font-size: 0.5em;">
+                    </form>
+                    
+                </td>
+                <td width="80" style="text-align: center; padding: 0;">
+                    <a href=# id="reviewlink">Leave a review</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% endif %}
+
+</body>
+</html>
