@@ -3,6 +3,7 @@ from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from datetime import datetime
 import time
+import math
 
 app = Flask(__name__)
 app.secret_key = 'benefit'
@@ -131,6 +132,9 @@ def add():
             expiry_date = request.form['expiry_date']
             routine_category = request.form['routine_category']
             date = datetime.today().strftime('%Y-%m-%d')
+
+            if specific_days == "0": # default value
+                specific_days = generateSpecificDays(frequency_type, int(frequency))
             
             cursor = mysql.connection.cursor()
             cursor.execute(
@@ -169,6 +173,29 @@ def checkExistingShelf(username, product_name):
         existingShelves.append("Wish List")
     
     return existingShelves
+
+# Helper method to determine default specific days
+def generateSpecificDays(frequency_type, num_of_times):
+    max = 7 # if frequency_type == "Weekly"
+    if frequency_type == "Monthly":
+        max = 30
+    interval = math.ceil(max/num_of_times)
+    days = []
+    for i in range(1, max+1, interval):
+        days.append(i)
+    
+    if len(days) < num_of_times:
+        interval = math.floor(max/num_of_times)
+        days = []
+        for i in range(1, max+1, interval):
+            days.append(i)
+    
+    specific_days = ""
+    for i in range(num_of_times):
+        specific_days += str(days[i]) + ","
+    specific_days = specific_days[:-1] # remove last comma
+    
+    return specific_days
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
