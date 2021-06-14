@@ -1,0 +1,41 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profileStyle.css') }}">
+    <title>Create Product</title>
+</head>
+<body>
+
+    <h2 style="text-align: center;">Create Product</h2>
+
+    <form action = "{{ url_for('create') }}" method = "post">
+
+        <label for="product_name">Product Name: </label>
+        <input type="text" name="product_name" id="product_name" required>
+        <br><br> 
+
+        <label for="brand">Brand: </label>
+        <input type="text" name="brand" id="brand" required>
+        <br>
+
+        <p>Type:</p>
+        <input type="radio" name="skincare_or_makeup" id="skincare" value="Skincare">
+        <label for="skincare">Skincare</label><br>
+        <input type="radio" name="skincare_or_makeup" id="makeup" value="Makeup">
+        <label for="makeup">Makeup</label><br><br>
+
+        <!-- <label for="photo">Photo (Optional): </label>
+        <input type="file" name="photo" id="photo" accept=".jpg,.jpeg,.png" value="">
+        <br><br> -->
+        
+        <input type="submit" value="Add product to community database">
+        <br><br>
+    </form>
+
+</body>
+</html>

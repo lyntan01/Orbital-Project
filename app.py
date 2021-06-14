@@ -50,12 +50,15 @@ def profile(username):
     return render_template('profile.html', username=username, userInfo=userInfo, reviews=reviews)
 
 @app.route('/search', methods=['GET', 'POST'])
-def search():
+@app.route('/search/<search_term>')
+def search(search_term=None):
     products = []
     # Check if 'search_term' POST request exists (user submitted form)
-    if request.method == 'POST' and 'search_term' in request.form:
-        # Create variables for easy access
-        search_term = request.form['search_term']
+    if (request.method == 'POST' and 'search_term' in request.form) or search_term:
+        if search_term:
+            search_term = search_term.replace("_", " ")
+        else:
+            search_term = request.form['search_term']
         # Check if product exists using MySQL
         cursor = mysql.connection.cursor()
         cursor.execute(
@@ -199,7 +202,38 @@ def generateSpecificDays(frequency_type, num_of_times):
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-    return "Page for Create Product not created yet."
+    if request.method == 'POST' and 'product_name' in request.form and 'brand' in request.form and 'skincare_or_makeup' in request.form:
+        # Create variables for easy access
+        product_name = request.form['product_name'].title()
+        brand = request.form['brand']
+        skincare_or_makeup = request.form['skincare_or_makeup']
+        average_rating = 0.00
+        # photo = request.form['photo']
+
+        # Check that product does not already exist in database
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM Product WHERE product_name = %s', (product_name,))
+        result = cursor.fetchone()
+        if result:
+            msg = 'This product already exists in the database!'
+        else:
+            # Insert product into database
+            cursor = mysql.connection.cursor()
+
+            # Photo file uploaded by user
+            # if len(photo) > 0: 
+            #     cursor.execute('INSERT INTO Product VALUES(%s, %s, %s, %s, %s)', (product_name, brand, skincare_or_makeup, average_rating, photo, ))
+            # No photo file uploaded
+            # else:
+            
+            cursor.execute('INSERT INTO Product VALUES(%s, %s, %s, %s, null)', (product_name, brand, skincare_or_makeup, average_rating,))
+            mysql.connection.commit()
+            msg = 'Product successfully added to database!'
+        
+        search_term = product_name.replace(" ", "_")
+        return redirect('./search/' + search_term)
+        
+    return render_template('create.html')
 
 @app.route('/shelve', methods=['GET', 'POST'])
 def shelve():
