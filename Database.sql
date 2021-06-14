@@ -65,7 +65,7 @@ CREATE TABLE Uses (
 												(frequency = 1 AND `frequency_type` = 'Daily')),
     specific_days 		VARCHAR(100) DEFAULT 0,
     expiry_date 		DATE,
-    routine_category 	VARCHAR(5) CHECK (routine_category IN ('Day', 'Nght', 'Both')) DEFAULT 'Both',
+    routine_category 	VARCHAR(5) CHECK (routine_category IN ('Day', 'Night', 'Both')) DEFAULT 'Both',
     used_date 			DATE NOT NULL,
     PRIMARY KEY (username, product_name),
     FOREIGN KEY (username) REFERENCES `Member User`(username) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -90,4 +90,26 @@ CREATE TABLE Wishes (
     
 INSERT INTO `Member User` VALUES('kx_ein', 'ke xin', 'xie', 'F', 'bleh', 'gmail');
 INSERT INTO `Member User` VALUES('lyntanrambutan', 'Lyn', 'Tan', 'F', 'jeno', 'gmail.com');
+INSERT INTO `Member User` VALUES('vicki', 'Vicki', 'Tan', 'F', 'bicki', 'vicki@gmail.com');
+SELECT * FROM `Member User` WHERE username = 'lyntanrambutan';
 
+INSERT INTO `Forum Thread` VALUES(1, 'kx_ein', 'TEST', null);
+INSERT INTO `Forum Reply` VALUES(1, 1, 'kx_ein', 'hello');
+DELETE FROM `Forum Thread` WHERE thread_ID = 1;
+
+INSERT INTO `Product` VALUES('Auto Eyebrow Pencil', 'Innisfree', 'Makeup', 0.00, null);
+INSERT INTO `Product` VALUES('Jeju Cherry Blossom Tone-up Cream', 'Innisfree', 'Skincare', 0.00, null);
+INSERT INTO `Product` VALUES('Born This Way The Natural Nudes Eye Shadow Palette', 'Too Faced', 'Makeup', 0.00, null);
+INSERT INTO `Product` VALUES('Play Color Eyes Rose Wine', 'Etude House', 'Makeup', 0.00, null);
+INSERT INTO `Product` VALUES('Rose Deep Hydration Facial Toner', 'Fresh', 'Skincare', 0.00, null);
+
+INSERT INTO `Review` VALUES(4, 'lyntanrambutan', 'Auto Eyebrow Pencil');
+INSERT INTO `Review` VALUES(5, 'kx_ein', 'Auto Eyebrow Pencil');
+INSERT INTO `Review` VALUES(5, 'lyntanrambutan', 'Jeju Cherry Blossom Tone-up Cream');
+INSERT INTO `Review` VALUES(3, 'kx_ein', 'Jeju Cherry Blossom Tone-up Cream');
+INSERT INTO `Review` VALUES(5, 'lyntanrambutan', 'Born This Way The Natural Nudes Eye Shadow Palette');
+INSERT INTO `Review` VALUES(2, 'kx_ein', 'Born This Way The Natural Nudes Eye Shadow Palette');
+INSERT INTO `Review` VALUES(5, 'lyntanrambutan', 'Play Color Eyes Rose Wine');
+INSERT INTO `Review` VALUES(3, 'kx_ein', 'Play Color Eyes Rose Wine');
+INSERT INTO `Review` VALUES(5, 'kx_ein', 'Rose Deep Hydration Facial Toner');
+SELECT product_name, rating FROM `Review` WHERE username = 'lyntanrambutan';

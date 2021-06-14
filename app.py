@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-import datetime
+from datetime import datetime
 import time
 
 app = Flask(__name__)
@@ -11,119 +11,180 @@ app.secret_key = 'benefit'
 app.config['MYSQL_DB'] = 'The Curious Case Of Cosmetics'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'T0107553a'
+app.config['MYSQL_PASSWORD'] = 'Jenojinv1630'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # Intialize MySQL
 mysql = MySQL(app)
 
-#http://localhost:5000/
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    #output message if something goes wrong
-    msg = ''
-    # Check if "member_id" and "password" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        # Create variables for easy access
-        username = request.form['username']
-        pw = request.form['password']
-        # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM `Member User` WHERE username = %s AND password = %s', (username, pw,))
-        account = cursor.fetchone()
-        if account:
-            session['loggedin'] = True
-            session['username'] = account['username']
-            return redirect(url_for('shelve'))
-    
-        else:
-            msg = 'Incorrect username/password! Try again!'
-    return render_template('login.html', msg=msg)
+@app.route('/<username>/profile', methods=['GET', 'POST'])
+def profile(username):
+    # output message if something goes wrong
+    msg = 'There was a problem loading your profile page. Please try again.'
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    msg = ''
-    if request.method == 'POST' and 'username' in request.form and 'firstname' in request.form and "email" in request.form and "gender" in request.form and 'lastname' in request.form and 'password' in request.form:
-        username = request.form['username']
-        email = request.form['email']
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        gender = request.form['gender']
-        password = request.form['password']
+    if request.method == 'GET':
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+                'SELECT * FROM `Member User` WHERE username = %s', (username,))
+        # Store user's information into a dictionary
+        userInfo = cursor.fetchone()
 
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM `Member User` WHERE email = %s', (email,))
-        emailcheck = cursor.fetchone()
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM `Member User` WHERE username = %s', (username,))
-        usercheck = cursor.fetchone()
-        # If account exists show error and validation checks
-        if emailcheck:
-            msg = 'Account already exists!'
-        elif usercheck:
-            msg = 'Username already exists!'
-        elif len(gender) != 1:
-            msg = 'Gender must be F or M!'
-        else:
-            # Account doesnt exists and the form data is valid, now insert new account into member user table
+        # If account does not exist show error and validation checks
+        if not userInfo:
+            msg = 'Account does not exist!'
+        else: 
+            # Account exists, now find all reviews made by user
+            cursor = mysql.connection.cursor()
             cursor.execute(
-                'INSERT INTO `Member User` VALUES (%s, %s, %s, %s, %s, %s )', (username, firstname, lastname, gender, password, email,))
-            mysql.connection.commit()
-            msg = 'You have successfully registered!'
+                '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating 
+                FROM Review r, Product p 
+                WHERE r.username = %s AND r.product_name = p.product_name 
+                ORDER BY p.brand, p.skincare_or_makeup, r.rating DESC''', (username,))
+            # Store user's reviews into a dictionary
+            reviews = cursor.fetchall()
 
-    # Show registration form with message (if any)
-    return render_template('signup.html', msg=msg)
+            msg = 'Your profile will now be displayed'
+
+    # Show user's profile with user's reviews (if any)
+    return render_template('profile.html', username=username, userInfo=userInfo, reviews=reviews)
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    products = []
+    # Check if 'search_term' POST request exists (user submitted form)
+    if request.method == 'POST' and 'search_term' in request.form:
+        # Create variables for easy access
+        search_term = request.form['search_term']
+        # Check if product exists using MySQL
+        cursor = mysql.connection.cursor()
+        cursor.execute(
+            '''SELECT product_name, brand, skincare_or_makeup, average_rating 
+            FROM Product 
+            WHERE LOCATE(%s, product_name) > 0 OR LOCATE(%s, brand) > 0
+            ORDER BY brand, product_name''', (search_term, search_term,))
+        # Store search results into a dictionary
+        products = cursor.fetchall()
+        return render_template('search.html', products=products, post=True)
+    else:
+        return render_template('search.html', products=products, post=False)
+
+# This method adds a product to one of the user's shelves, 
+# then redirects the user to the page of the selected shelf
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    # CHANGE AFTER INTEGRATING
+    username = 'lyntanrambutan'
+
+    if request.method == 'POST': 
+        # Form submitted is from Search page
+        if 'product_name' in request.form and 'shelf' in request.form:
+            product_name = request.form['product_name']
+            shelf = request.form['shelf']
+            date = datetime.today().strftime('%Y-%m-%d')
+
+            existingShelves = checkExistingShelf(username, product_name)
+            cursor = mysql.connection.cursor()
+            if shelf=="Shelved":
+                # If product already exists in user's Shelved products, show error and validation checks
+                if "Shelved" in existingShelves:
+                    msg = 'This product has already been Shelved!'
+                elif existingShelves:
+                    msg = 'This product is already in your ' + existingShelves[0] + "!"
+                # Product is not in any of the user's shelves
+                else:
+                    cursor = mysql.connection.cursor()
+                    cursor.execute('INSERT INTO `Shelves` VALUES(%s, %s, %s)', (username, product_name, date,))
+                    mysql.connection.commit()
+                    msg = 'Successfully added product to Shelved!'
+                    return redirect(url_for('shelve'))
+            
+            elif shelf=="Wish List":
+                # If product already exists in user's Wish List, show error and validation checks
+                if "Wish List" in existingShelves:
+                    msg = 'This product is already in your Wish List!'
+                elif existingShelves:
+                    msg = 'This product is already in your ' + existingShelves[0] + "!"
+                # Product is not in any of the user's shelves
+                else:
+                    cursor = mysql.connection.cursor()
+                    cursor.execute('INSERT INTO `Wishes` VALUES(%s, %s, %s)', (username, product_name, date,))
+                    mysql.connection.commit()
+                    msg = 'Successfully added product to Wish List!'
+                    return redirect(url_for('wishlist'))
+
+            else: # shelf == "Currently Using"
+                # If product already exists in user's Currently Using products, show error and validation checks
+                if "Currently Using" in existingShelves:
+                    msg = 'This product is already in your Currently Using shelf!'
+                elif existingShelves:
+                    msg = 'This product is already in your ' + existingShelves[0] + "!"
+                # Product is not in any of the user's shelves
+                else:
+                    return render_template('add.html', product_name=product_name, today_date=date) 
+
+        # Form submitted is from Add page, to add product to Currently Using
+        elif 'frequency_type' in request.form and 'routine_category' in request.form: 
+            product_name = request.form['product_name']
+            frequency_type = request.form['frequency_type']
+            frequency = request.form['frequency']
+            specific_days = request.form['specific_days']
+            expiry_date = request.form['expiry_date']
+            routine_category = request.form['routine_category']
+            date = datetime.today().strftime('%Y-%m-%d')
+            
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                'INSERT INTO Uses VALUES(%s, %s, %s, %s, %s, %s, %s, %s)', 
+                (username, product_name, frequency_type, frequency, specific_days, expiry_date, routine_category, date,))
+            mysql.connection.commit()
+            msg = 'Successfully added product to Currently Using!'
+
+            return redirect(url_for('using'))
+    
+    return redirect(request.referrer)
+
+# Helper method to check if product is already in one of user's shelves
+def checkExistingShelf(username, product_name):
+    existingShelves = []
+
+    # Check if product is already in Shelved products
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM Shelves WHERE username = %s AND product_name = %s', (username, product_name,))
+    result = cursor.fetchone()
+    if result:
+        existingShelves.append("Shelved")
+
+    # Check if product is already in Currently Using products
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM Uses WHERE username = %s AND product_name = %s', (username, product_name,))
+    result = cursor.fetchone()
+    if result:
+        existingShelves.append("Currently Using")
+
+    # Check if product is already in Wish List
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM Wishes WHERE username = %s AND product_name = %s', (username, product_name,))
+    result = cursor.fetchone()
+    if result:
+        existingShelves.append("Wish List")
+    
+    return existingShelves
+
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    return "Page for Create Product not created yet."
 
 @app.route('/shelve', methods=['GET', 'POST'])
 def shelve():
-    if 'loggedin' in session:
-        products = []
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('''SELECT DISTINCT brand, skincare_or_makeup, T1.product_name, shelved_date
-                            FROM `Shelves` AS T1
-                            JOIN `Product` AS T2 
-                            ON T1.product_name = T2.product_name
-                            WHERE T1.username = %s''', (session['username'],))
-        results = cursor.fetchall()
-        for row in results:
-            products.append(row)
-        return render_template('shelve.html', products=products)
+    return "kexin"
 
 @app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
-    if 'loggedin' in session:
-        products = []
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('''SELECT DISTINCT brand, skincare_or_makeup, T1.product_name, wished_date
-                            FROM `Wishes` AS T1
-                            JOIN `Product` AS T2 
-                            ON T1.product_name = T2.product_name
-                            WHERE T1.username = %s''', (session['username'],))
-        results = cursor.fetchall()
-        for row in results:
-            products.append(row)
-        return render_template('wishlist.html', products=products)
+    return "kexin"
 
 @app.route('/using', methods=['GET', 'POST'])
 def using():
-    if 'loggedin' in session:
-        products = []
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('''SELECT DISTINCT brand, skincare_or_makeup, T1.product_name, routine_category, expiry_date, frequency_type, frequency, specific_days
-                            FROM `Uses` AS T1
-                            JOIN `Product` AS T2 
-                            ON T1.product_name = T2.product_name
-                            WHERE T1.username = %s''', (session['username'],))
-        results = cursor.fetchall()
-        for row in results:
-            products.append(row)
-        return render_template('using.html', products=products)
+    return "kexin"
 
-@app.route('/logout')
-def logout():
-    session.pop('loggedin', None)
-    session.pop('member_id', None)
-    session.pop('name', None)
-    return redirect(url_for('login'))
+if __name__ == "__main__":
+    app.run(debug=True)
