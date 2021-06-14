@@ -1,0 +1,63 @@
+
+{% include 'sidebar.html' %}{% include 'header.html' %}{%block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>THE CURIOUS CASE OF COSMETICS</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class = "flashes">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+
+     <div class= 'table' style="text-align: center; width: 100%; position: relative; bottom: 500px;">
+      <table id="example" class="table table-striped table-bordered" style="text-align: center; width: 75%;">
+        <thead>
+          <tr>
+            <td width='300'>
+              <h3><b>Brand</b></h3>
+            </td>
+            <td width='300'>
+              <h3><b>Type</b></h3>
+            </td>
+            <td width='300'>
+              <h3><b>Product Name</b></h3>
+            </td>
+            <td width='300'>
+              <h3><b>Shelved Date</b></h3>
+            </td>
+            <td width='300'>
+              <h3><b></b></h3>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td>{{product.brand}}</td>
+            <td>{{product.skincare_or_makeup}}</td>
+            <td>{{product.product_name}}</td>
+            <td>{{product.shelved_date}}</td>
+            <td width="200">
+              <a href=# class="btn btn-secondary btn-sm">Edit</a>
+              <a href="/deleteShelve/{{product.product_name}}" class="btn btn-secondary btn-sm">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+</body>
+</html>
+
+{% endblock %}
