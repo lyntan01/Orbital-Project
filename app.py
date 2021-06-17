@@ -19,9 +19,10 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
 @app.route('/<username>/profile', methods=['GET', 'POST'])
-def profile(username):
-    # output message if something goes wrong
-    msg = 'There was a problem loading your profile page. Please try again.'
+def profile(username=None):
+    # Display the user's own profile if no username specified
+    if username == None:
+        username = session['username']
 
     if request.method == 'GET':
         cursor = mysql.connection.cursor()
@@ -30,11 +31,8 @@ def profile(username):
         # Store user's information into a dictionary
         userInfo = cursor.fetchone()
 
-        # If account does not exist show error and validation checks
-        if not userInfo:
-            msg = 'Account does not exist!'
-        else: 
-            # Account exists, now find all reviews made by user
+        # Check that account exists, now find all reviews made by user
+        if userInfo:
             cursor = mysql.connection.cursor()
             cursor.execute(
                 '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating 
@@ -44,20 +42,17 @@ def profile(username):
             # Store user's reviews into a dictionary
             reviews = cursor.fetchall()
 
-            msg = 'Your profile will now be displayed'
-
     # Show user's profile with user's reviews (if any)
     return render_template('profile.html', username=username, userInfo=userInfo, reviews=reviews)
 
+@app.route('/search/<search_term>/<error_msg>', methods=['GET', 'POST'])
+@app.route('/search/<search_term>', methods=['GET', 'POST'])
 @app.route('/search', methods=['GET', 'POST'])
-@app.route('/search/<search_term>')
-def search(search_term=None):
+def search(search_term=None, error_msg=None):
     products = []
     # Check if 'search_term' POST request exists (user submitted form)
     if (request.method == 'POST' and 'search_term' in request.form) or search_term:
-        if search_term:
-            search_term = search_term.replace("_", " ")
-        else:
+        if not search_term:
             search_term = request.form['search_term']
         # Check if product exists using MySQL
         cursor = mysql.connection.cursor()
@@ -68,16 +63,17 @@ def search(search_term=None):
             ORDER BY brand, product_name''', (search_term, search_term,))
         # Store search results into a dictionary
         products = cursor.fetchall()
-        return render_template('search.html', products=products, post=True)
+        return render_template('search.html', products=products, post=True, error_msg=error_msg, search_term=search_term)
     else:
-        return render_template('search.html', products=products, post=False)
+        return render_template('search.html', products=products, post=False, error_msg=error_msg, search_term=search_term)
 
 # This method adds a product to one of the user's shelves, 
 # then redirects the user to the page of the selected shelf
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     # CHANGE AFTER INTEGRATING
-    username = 'lyntanrambutan'
+    username = 'vicki'
+    error_msg = None
 
     if request.method == 'POST': 
         # Form submitted is from Search page
@@ -91,37 +87,37 @@ def add():
             if shelf=="Shelved":
                 # If product already exists in user's Shelved products, show error and validation checks
                 if "Shelved" in existingShelves:
-                    msg = 'This product has already been Shelved!'
+                    error_msg = 'This product has already been Shelved!'
                 elif existingShelves:
-                    msg = 'This product is already in your ' + existingShelves[0] + "!"
+                    error_msg = 'This product is already in your ' + existingShelves[0] + "!"
                 # Product is not in any of the user's shelves
                 else:
                     cursor = mysql.connection.cursor()
                     cursor.execute('INSERT INTO `Shelves` VALUES(%s, %s, %s)', (username, product_name, date,))
                     mysql.connection.commit()
-                    msg = 'Successfully added product to Shelved!'
+                    flash('Successfully added product to Shelved!')
                     return redirect(url_for('shelve'))
             
             elif shelf=="Wish List":
                 # If product already exists in user's Wish List, show error and validation checks
                 if "Wish List" in existingShelves:
-                    msg = 'This product is already in your Wish List!'
+                    error_msg = 'This product is already in your Wish List!'
                 elif existingShelves:
-                    msg = 'This product is already in your ' + existingShelves[0] + "!"
+                    error_msg = 'This product is already in your ' + existingShelves[0] + "!"
                 # Product is not in any of the user's shelves
                 else:
                     cursor = mysql.connection.cursor()
                     cursor.execute('INSERT INTO `Wishes` VALUES(%s, %s, %s)', (username, product_name, date,))
                     mysql.connection.commit()
-                    msg = 'Successfully added product to Wish List!'
+                    flash('Successfully added product to Wish List!')
                     return redirect(url_for('wishlist'))
 
             else: # shelf == "Currently Using"
                 # If product already exists in user's Currently Using products, show error and validation checks
                 if "Currently Using" in existingShelves:
-                    msg = 'This product is already in your Currently Using shelf!'
+                    error_msg = 'This product is already in your Currently Using!'
                 elif existingShelves:
-                    msg = 'This product is already in your ' + existingShelves[0] + "!"
+                    error_msg = 'This product is already in your ' + existingShelves[0] + "!"
                 # Product is not in any of the user's shelves
                 else:
                     return render_template('add.html', product_name=product_name, today_date=date) 
@@ -144,11 +140,12 @@ def add():
                 'INSERT INTO Uses VALUES(%s, %s, %s, %s, %s, %s, %s, %s)', 
                 (username, product_name, frequency_type, frequency, specific_days, expiry_date, routine_category, date,))
             mysql.connection.commit()
-            msg = 'Successfully added product to Currently Using!'
 
+            flash('Successfully added product to Currently Using!')
             return redirect(url_for('using'))
-    
-    return redirect(request.referrer)
+
+        search_term = request.form['search_term']
+        return redirect(url_for('search', search_term=search_term, error_msg=error_msg))
 
 # Helper method to check if product is already in one of user's shelves
 def checkExistingShelf(username, product_name):
@@ -202,6 +199,8 @@ def generateSpecificDays(frequency_type, num_of_times):
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
+    error_msg = None
+
     if request.method == 'POST' and 'product_name' in request.form and 'brand' in request.form and 'skincare_or_makeup' in request.form:
         # Create variables for easy access
         product_name = request.form['product_name'].title()
@@ -215,7 +214,7 @@ def create():
         cursor.execute('SELECT * FROM Product WHERE product_name = %s', (product_name,))
         result = cursor.fetchone()
         if result:
-            msg = 'This product already exists in the database!'
+            error_msg = 'This product already exists in the database!'
         else:
             # Insert product into database
             cursor = mysql.connection.cursor()
@@ -228,19 +227,18 @@ def create():
             
             cursor.execute('INSERT INTO Product VALUES(%s, %s, %s, %s, null)', (product_name, brand, skincare_or_makeup, average_rating,))
             mysql.connection.commit()
-            msg = 'Product successfully added to database!'
+            flash('Product successfully added to database!')
         
-        search_term = product_name.replace(" ", "_")
-        return redirect('./search/' + search_term)
+            return redirect(url_for('search',search_term=product_name))
         
-    return render_template('create.html')
+    return render_template('create.html', error_msg=error_msg)
 
 @app.route('/review/<string:product_name>', methods=['GET', 'POST'])
 def review(product_name):
     # CHANGE AFTER INTEGRATING
     username = 'vicki'
-
-    product_name = product_name.replace("_", " ")
+    
+    error_msg = None
 
     if request.method == 'POST' and 'rating' in request.form:
         # Create variables for easy access
@@ -251,8 +249,7 @@ def review(product_name):
         cursor.execute('SELECT * FROM Review WHERE username = %s AND product_name = %s', (username, product_name,))
         result = cursor.fetchone()
         if result:
-            msg = 'You have already left a review for this product!'
-
+            error_msg = 'You have already left a review for this product!'
         else:
             # Insert new review into database
             cursor = mysql.connection.cursor()
@@ -266,12 +263,12 @@ def review(product_name):
                 WHERE product_name = %s''', (product_name, product_name,))
             mysql.connection.commit()
 
-            msg = 'Review successfully added!'
+            flash('Review successfully added!')
         
-        search_term = product_name.replace(" ", "_")
-        return redirect('../search/' + search_term)
+            return redirect(url_for('search', search_term=product_name))
+    return render_template('review.html', product_name=product_name, error_msg=error_msg)
 
-    return render_template('review.html', product_name=product_name)
+    
 
 @app.route('/shelve', methods=['GET', 'POST'])
 def shelve():

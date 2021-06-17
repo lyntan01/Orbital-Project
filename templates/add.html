@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profileStyle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
     <title>Add Product to Currently Using</title>
 </head>
 <body>
@@ -16,14 +16,6 @@
     <h2 style="text-align: center;">to Currently Using</h2>
 
     <form action = "{{ url_for('add') }}" method = "post">
-        
-        <!-- <label for="frequency_type">Frequency of Usage: </label>
-        <select name="frequency_type" id="frequency_type"> 
-            <option hidden disabled selected value>-- Select an option --</option>     
-            <option>Daily</option>     
-            <option>Weekly</option>     
-            <option>Monthly</option>     
-        </select> -->
 
         <input type="text" name="product_name" value="{{ product_name }}" style="display: none;">
 
@@ -39,7 +31,7 @@
         <label for="monthly">Monthly</label><br><br>
 
         <label for="frequency">How many times to use in a week/month (Optional):</label><br>
-        <p style="font-size: 0.8em;">Please input a number that is no higher than 6 for Weekly and 30 for Montly.</p><br>
+        <p style="font-size: 0.8em;">Please input a number that is no higher than 6 for Weekly and 30 for Monthly.</p><br>
         <input type="number" name="frequency" id="frequency" min="1" max="30" value="1"><br><br>
 
         <label for="specific_days">Specific days to use product (Optional):</label><br>
