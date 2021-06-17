@@ -44,7 +44,7 @@ def login():
         if account:
             session['loggedin'] = True
             session['username'] = account['username']
-            return redirect(url_for('routine'))
+            return redirect(url_for('dashboard'))
     
         else:
             msg = 'Incorrect username/password! Try again!'
@@ -237,6 +237,7 @@ def edit(product_name, prev_page):
             
             return render_template('edit.html', product_name=product_name, prev_page=prev_page, msg=msg, date=date)
 
+@app.route('/profile', methods=['GET', 'POST'])
 @app.route('/<username>/profile', methods=['GET', 'POST'])
 def profile(username=None):
     if 'loggedin' in session:
@@ -488,6 +489,24 @@ def review(product_name):
                 return redirect(url_for('search', search_term=product_name))
         return render_template('review.html', product_name=product_name, error_msg=error_msg)
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    ### INSERT CODE HERE ###
+    flash("Dashboard not ready, redirect to Search Products for now")
+    return redirect(url_for('search'))
+
+@app.route('/leaderboard', methods=['GET', 'POST'])
+def leaderboard():
+    ### INSERT CODE HERE ###
+    flash("Leaderboard not ready, redirect to Search Products for now")
+    return redirect(url_for('search'))
+
+@app.route('/forum', methods=['GET', 'POST'])
+def forum():
+    ### INSERT CODE HERE ###
+    flash("Forum not ready, redirect to Search Products for now")
+    return redirect(url_for('search'))
+
 @app.route('/logout')
 def logout():
     # Remove session data, this will log the user out
@@ -499,3 +518,5 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
