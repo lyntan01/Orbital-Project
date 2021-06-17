@@ -100,6 +100,8 @@ def shelve():
         for row in results:
             products.append(row)
         return render_template('shelve.html', products=products)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/wishlist', methods=['GET', 'POST'])
 def wishlist():
@@ -115,6 +117,8 @@ def wishlist():
         for row in results:
             products.append(row)
         return render_template('wishlist.html', products=products)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/using', methods=['GET', 'POST'])
 def using():
@@ -130,6 +134,8 @@ def using():
         for row in results:
             products.append(row)
         return render_template('using.html', products=products)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/routine', methods=['GET', 'POST'])
 def routine():
@@ -145,34 +151,44 @@ def routine():
         for row in results:
             products.append(row)
         return render_template('routine.html', products=products)
-
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/deleteShelve/<string:product_name>', methods=['GET', 'POST'] )
 def delete(product_name):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(
-        'DELETE FROM `Shelves` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
-    mysql.connection.commit()
-    flash("Item Deleted!")
-    return redirect(url_for('shelve'))
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Shelves` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
+        mysql.connection.commit()
+        flash("Item Deleted!")
+        return redirect(url_for('shelve'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/deleteWishlist/<string:product_name>', methods=['GET', 'POST'] )
 def deleteWishlist(product_name):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(
-        'DELETE FROM `Wishes` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
-    mysql.connection.commit()
-    flash("Item Deleted!")
-    return redirect(url_for('wishlist'))
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Wishes` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
+        mysql.connection.commit()
+        flash("Item Deleted!")
+        return redirect(url_for('wishlist'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/deleteUsing/<string:product_name>', methods=['GET', 'POST'] )
 def deleteUsing(product_name):
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(
-        'DELETE FROM `Uses` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
-    mysql.connection.commit()
-    flash("Item Deleted!")
-    return redirect(url_for('using'))
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Uses` WHERE username = %s AND product_name = %s', (session['username'], product_name,))
+        mysql.connection.commit()
+        flash("Item Deleted!")
+        return redirect(url_for('using'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/edit/<string:prev_page>/<string:product_name>', methods=['GET', 'POST'] )
 def edit(product_name, prev_page):
@@ -236,6 +252,8 @@ def edit(product_name, prev_page):
                 msg = "Please fill in the Product Category field!"
             
             return render_template('edit.html', product_name=product_name, prev_page=prev_page, msg=msg, date=date)
+    else:
+            return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/profile', methods=['GET', 'POST'])
 @app.route('/<username>/profile', methods=['GET', 'POST'])
@@ -265,6 +283,8 @@ def profile(username=None):
 
         # Show user's profile with user's reviews (if any)
         return render_template('profile.html', username=username, userInfo=userInfo, reviews=reviews)
+    else:
+            return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/search/<search_term>/<error_msg>', methods=['GET', 'POST'])
 @app.route('/search/<search_term>', methods=['GET', 'POST'])
@@ -288,6 +308,8 @@ def search(search_term=None, error_msg=None):
             return render_template('search.html', products=products, post=True, error_msg=error_msg, search_term=search_term)
         else:
             return render_template('search.html', products=products, post=False, error_msg=error_msg, search_term=search_term)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 # This method adds a product to one of the user's shelves, 
 # then redirects the user to the page of the selected shelf
@@ -367,6 +389,8 @@ def add():
 
             search_term = request.form['search_term']
             return redirect(url_for('search', search_term=search_term, error_msg=error_msg))
+    else:
+            return "Error: You are not logged in. Please log in to view this page."
 
 # Helper method to check if product is already in one of user's shelves
 def checkExistingShelf(username, product_name):
@@ -454,6 +478,8 @@ def create():
                 return redirect(url_for('search',search_term=product_name))
             
         return render_template('create.html', error_msg=error_msg)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/review/<string:product_name>', methods=['GET', 'POST'])
 def review(product_name):
@@ -488,33 +514,47 @@ def review(product_name):
             
                 return redirect(url_for('search', search_term=product_name))
         return render_template('review.html', product_name=product_name, error_msg=error_msg)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    ### INSERT CODE HERE ###
-    flash("Dashboard not ready, redirect to Search Products for now")
-    return redirect(url_for('search'))
+    if 'loggedin' in session:
+        ### INSERT CODE HERE ###
+        flash("Dashboard not ready, redirect to Search Products for now")
+        return redirect(url_for('search'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
 def leaderboard():
-    ### INSERT CODE HERE ###
-    flash("Leaderboard not ready, redirect to Search Products for now")
-    return redirect(url_for('search'))
+    if 'loggedin' in session:
+        ### INSERT CODE HERE ###
+        flash("Leaderboard not ready, redirect to Search Products for now")
+        return redirect(url_for('search'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/forum', methods=['GET', 'POST'])
 def forum():
-    ### INSERT CODE HERE ###
-    flash("Forum not ready, redirect to Search Products for now")
-    return redirect(url_for('search'))
+    if 'loggedin' in session:
+        ### INSERT CODE HERE ###
+        flash("Forum not ready, redirect to Search Products for now")
+        return redirect(url_for('search'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/logout')
 def logout():
-    # Remove session data, this will log the user out
-    session.pop('loggedin', None)
-    session.pop('member_id', None)
-    session.pop('name', None)
-    # Redirect to login page
-    return redirect(url_for('login'))
+    if 'loggedin' in session:
+        # Remove session data, this will log the user out
+        session.pop('loggedin', None)
+        session.pop('member_id', None)
+        session.pop('name', None)
+        # Redirect to login page
+        return redirect(url_for('login'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
 
 if __name__ == "__main__":
     app.run(debug=True)
