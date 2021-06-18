@@ -529,9 +529,22 @@ def dashboard():
 @app.route('/leaderboard', methods=['GET', 'POST'])
 def leaderboard():
     if 'loggedin' in session:
-        ### INSERT CODE HERE ###
-        flash("Leaderboard not ready, redirect to Search Products for now")
-        return redirect(url_for('search'))
+        products = []
+        # Check if 'skincare_or_makeup' POST request exists (user submitted form)
+        if request.method == 'POST' and 'skincare_or_makeup' in request.form:
+            type = request.form['skincare_or_makeup']
+            # Get top 10 products by average rating using MySQL
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                '''SELECT product_name, brand, average_rating 
+                FROM Product 
+                WHERE skincare_or_makeup = %s
+                ORDER BY average_rating DESC LIMIT 10''', (type,))
+            # Store search results into a dictionary
+            products = cursor.fetchall()
+            return render_template('leaderboard.html', products=products, type=type)
+        else:
+            return render_template('leaderboard.html', products=products, type=None)
     else:
         return "Error: You are not logged in. Please log in to view this page."
 

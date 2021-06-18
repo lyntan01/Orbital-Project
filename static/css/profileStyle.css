@@ -11,11 +11,11 @@ div {
     text-align: center;
 }
 
-.logout {
+/* .logout {
     text-align: center;
     display: block;
     margin: 30px 0px;
-}
+} */
 
 .logoutbutton:hover {
     background-color: #F59193;
@@ -118,4 +118,40 @@ td {
     /* color: #d47e97; */
     color: black;
 }
+
+.leaderboardForm {
+    text-align: center;
+}
+
+.leaderboardbutton {
+    display: inline-block;
+}
+
+.chosen {
+    background-color: #F59193;
+    color: white;
+}
+
+.leaderboard tbody tr:first-child {
+    border: 5px gold double;
+    color: goldenrod;
+}
+
+.leaderboard tbody tr:nth-child(2) {
+    border: 5px silver double;
+    color: darkgray;
+    background: white;
+}
+
+.leaderboard tbody tr:nth-child(3) {
+    border: 5px darkgoldenrod double;
+    color: darkgoldenrod;
+}
+
+.leaderboard tbody tr:first-child:hover, .leaderboard tbody tr:nth-child(2):hover, .leaderboard tbody tr:nth-child(3):hover {
+    background-color: #F59193;
+    color: white;
+}
+
+
 
