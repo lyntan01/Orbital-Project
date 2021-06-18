@@ -366,32 +366,41 @@ def add():
                         error_msg = 'This product is already in your ' + existingShelves[0] + "!"
                     # Product is not in any of the user's shelves
                     else:
-                        return render_template('add.html', product_name=product_name, today_date=date) 
+                        return render_template('add.html', product_name=product_name, today_date=date, error_msg=None) 
+            
+                search_term = request.form['search_term']
+                return redirect(url_for('search', search_term=search_term, error_msg=error_msg))
 
             # Form submitted is from Add page, to add product to Currently Using
-            elif 'frequency_type' in request.form and 'routine_category' in request.form: 
-                product_name = request.form['product_name']
-                frequency_type = request.form['frequency_type']
-                frequency = request.form['frequency']
-                specific_days = request.form['specific_days']
-                expiry_date = request.form['expiry_date']
-                routine_category = request.form['routine_category']
-                date = datetime.today().strftime('%Y-%m-%d')
-
-                if specific_days == "0": # default value
-                    specific_days = generateSpecificDays(frequency_type, int(frequency))
+            else:
+                if 'frequency_type' not in request.form:
+                    error_msg = 'Please fill in the Frequency of Usage field!'
+                    return render_template('add.html', product_name=request.form['product_name'], today_date=datetime.today().strftime('%Y-%m-%d'), error_msg=error_msg) 
                 
-                cursor = mysql.connection.cursor()
-                cursor.execute(
-                    'INSERT INTO Uses VALUES(%s, %s, %s, %s, %s, %s, %s, %s)', 
-                    (session['username'], product_name, frequency_type, frequency, specific_days, expiry_date, routine_category, date,))
-                mysql.connection.commit()
+                elif 'routine_category' not in request.form:
+                    error_msg = 'Please fill in the Routine Category field!'
+                    return render_template('add.html', product_name=request.form['product_name'], today_date=datetime.today().strftime('%Y-%m-%d'), error_msg=error_msg) 
 
-                flash('Successfully added product to Currently Using!')
-                return redirect(url_for('using'))
+                else:
+                    product_name = request.form['product_name']
+                    frequency_type = request.form['frequency_type']
+                    frequency = request.form['frequency']
+                    specific_days = request.form['specific_days']
+                    expiry_date = request.form['expiry_date']
+                    routine_category = request.form['routine_category']
+                    date = datetime.today().strftime('%Y-%m-%d')
 
-            search_term = request.form['search_term']
-            return redirect(url_for('search', search_term=search_term, error_msg=error_msg))
+                    if specific_days == "0": # default value
+                        specific_days = generateSpecificDays(frequency_type, int(frequency))
+                    
+                    cursor = mysql.connection.cursor()
+                    cursor.execute(
+                        'INSERT INTO Uses VALUES(%s, %s, %s, %s, %s, %s, %s, %s)', 
+                        (session['username'], product_name, frequency_type, frequency, specific_days, expiry_date, routine_category, date,))
+                    mysql.connection.commit()
+
+                    flash('Successfully added product to Currently Using!')
+                    return redirect(url_for('using'))         
     else:
             return "Error: You are not logged in. Please log in to view this page."
 
@@ -529,8 +538,8 @@ def dashboard():
         new_date = date.today() + timedelta(days=30) 
         cursor = mysql.connection.cursor()
         cursor.execute('''SELECT product_name, expiry_date FROM Uses 
-	                    WHERE username = %s AND expiry_date <= %s
-                        ORDER BY expiry_date''', (session['username'], new_date,))
+	                    WHERE username = %s AND expiry_date >= %s AND expiry_date <= %s
+                        ORDER BY expiry_date''', (session['username'], date.today(), new_date,))
         expiring_products = cursor.fetchall()
 
         # For each product, add number of days from today to the expiry date

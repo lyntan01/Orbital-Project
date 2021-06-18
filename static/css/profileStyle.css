@@ -153,5 +153,14 @@ td {
     color: white;
 }
 
+.addForm {
+    margin-left: 10%;
+    margin-bottom: 30px;
+}
+
+.addForm label {
+    margin-top: 20px;
+}
+
 
 
