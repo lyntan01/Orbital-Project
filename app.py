@@ -226,11 +226,11 @@ def edit(product_name, prev_page):
                     'INSERT INTO `Wishes` VALUES (%s, %s, %s)', (session['username'], product_name, date, )) 
             
             elif product_category == "Using" and not 'frequency_type' in request.form:
-                msg = 'Please field in the Frequency of Usage field!'
+                msg = 'Please fill in the Frequency of Usage field!'
                 return render_template('edit.html', product_name=product_name, prev_page=prev_page, msg=msg, date=date)
                        
             elif product_category == "Using" and not 'routine_category' in request.form:
-                msg = 'Please field in the Routine Category field!'
+                msg = 'Please fill in the Routine Category field!'
                 return render_template('edit.html', product_name=product_name, prev_page=prev_page, msg=msg,date=date)
             
             else:       
@@ -239,6 +239,9 @@ def edit(product_name, prev_page):
                 specific_days = request.form['specific_days']
                 frequency_type = request.form['frequency_type'] 
                 routine_category = request.form['routine_category']
+
+                if specific_days == "0": # default value
+                    specific_days = generateSpecificDays(frequency_type, int(frequency))
 
                 cursor.execute(
                     'INSERT INTO `Uses` VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (session['username'], product_name, frequency_type, frequency, specific_days, expiry, routine_category, date, ))
