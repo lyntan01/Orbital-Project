@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Markup
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import time
 import math
 
@@ -521,6 +521,78 @@ def review(product_name):
 def dashboard():
     if 'loggedin' in session:
         ### INSERT CODE HERE ###
+
+        # Find Currently Using products which are expiring in the next 30 days
+        new_date = date.today() + timedelta(days=30) 
+        cursor = mysql.connection.cursor()
+        cursor.execute('''SELECT product_name, expiry_date FROM Uses 
+	                    WHERE username = %s AND expiry_date <= %s
+                        ORDER BY expiry_date''', (session['username'], new_date,))
+        expiring_products = cursor.fetchall()
+
+        # For each product, add number of days from today to the expiry date
+        for product in expiring_products:
+            num_days_left = product["expiry_date"] - date.today()
+            product["num_days_left"] = num_days_left.days
+        
+        # Find Day Routine products of user
+        cursor = mysql.connection.cursor()
+        cursor.execute('''SELECT p.brand, u.product_name, u.frequency_type, u.specific_days 
+                        FROM Product p, Uses u
+                        WHERE p.product_name = u.product_name 
+                            AND username = %s
+                            AND (routine_category = 'Day' OR routine_category = 'Both')
+                        ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (session['username'],))
+        day_routine_tuple = cursor.fetchall()
+        day_routine = []
+
+        # Filter Day Routine products for that particular day
+        for product in day_routine_tuple:
+
+            if product["frequency_type"] == "Daily":
+                day_routine.append(product)
+            else:
+                specific_days = product["specific_days"].split(",")
+
+                # Check if product should be used on this day of the week
+                day_of_week = str(date.today().isoweekday())
+                if product["frequency_type"] == "Weekly" and day_of_week in specific_days: 
+                    day_routine.append(product)
+
+                # Check if product should be used on this day of the month
+                day_of_month = str(date.today().day)
+                if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
+                    day_routine.append(product)
+
+        # Find Day Routine products of user
+        cursor = mysql.connection.cursor()
+        cursor.execute('''SELECT p.brand, u.product_name, u.frequency_type, u.specific_days 
+                        FROM Product p, Uses u
+                        WHERE p.product_name = u.product_name 
+                            AND username = %s
+                            AND (routine_category = 'Night' OR routine_category = 'Both')
+                        ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (session['username'],))
+        night_routine_tuple = cursor.fetchall()
+        night_routine = []
+
+        # Filter Day Routine products for that particular day
+        for product in night_routine_tuple:
+
+            if product["frequency_type"] == "Daily":
+                night_routine.append(product)
+            else:
+                specific_days = product["specific_days"].split(",")
+
+                # Check if product should be used on this day of the week
+                day_of_week = str(date.today().isoweekday())
+                if product["frequency_type"] == "Weekly" and day_of_week in specific_days: 
+                    night_routine.append(product)
+
+                # Check if product should be used on this day of the month
+                day_of_month = str(date.today().day)
+                if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
+                    night_routine.append(product)
+
         flash("Dashboard not ready, redirect to Search Products for now")
         return redirect(url_for('search'))
     else:
