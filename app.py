@@ -532,13 +532,15 @@ def review(product_name):
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'loggedin' in session:
-        ### INSERT CODE HERE ###
 
         # Find Currently Using products which are expiring in the next 30 days
         new_date = date.today() + timedelta(days=30) 
         cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT product_name, expiry_date FROM Uses 
-	                    WHERE username = %s AND expiry_date >= %s AND expiry_date <= %s
+        cursor.execute('''SELECT p.brand, u.product_name, u.expiry_date 
+                        FROM Product p, Uses u
+	                    WHERE p.product_name = u.product_name 
+                            AND username = %s 
+                            AND expiry_date >= %s AND expiry_date <= %s
                         ORDER BY expiry_date''', (session['username'], date.today(), new_date,))
         expiring_products = cursor.fetchall()
 
@@ -605,8 +607,8 @@ def dashboard():
                 if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
                     night_routine.append(product)
 
-        flash("Dashboard not ready, redirect to Search Products for now")
-        return redirect(url_for('search'))
+        return render_template('dashboard.html', username=session['username'], expiring_products=expiring_products, 
+            day_routine=day_routine, night_routine=night_routine, date=date.today())
     else:
         return "Error: You are not logged in. Please log in to view this page."
 

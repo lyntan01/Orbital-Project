@@ -1,0 +1,64 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" async></script>
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <div class="hello">
+        <h1>Hello, {{ username }}!</h1>
+    </div>
+
+    <div class="dashboardcontent">
+        <div class="dashboardcol leftcol">
+            <h3>Expiry Date Reminders</h3>
+
+            <div class="remindercontainer">
+                {% for product in expiring_products %}
+                <div class="roundedbox reminder">
+                    <span class="number">{{ product["num_days_left"] }} </span><span class="days">days</span>
+                    <p>{{ product["brand"] }} {{ product["product_name"] }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h3>Beauty Routine</h3>
+            <p id="todaysdate">{{ date.strftime("%A, %d %B") }}</p>
+
+            <div class="roundedbox dayroutine">
+                <h4>Day Routine</h4>
+
+                {% for product in day_routine %}
+                    <input type="checkbox" id="{{ product['product_name'] }} Day" name="day_product" value="{{ product['product_name'] }}"> 
+                    <label for="{{ product['product_name'] }}">{{ product['brand'] }} {{ product['product_name'] }}</label><br>
+                {% endfor %}
+            </div>
+
+            <div class="roundedbox nightroutine">
+                <h4>Night Routine</h4>
+
+                {% for product in night_routine %}
+                    <input type="checkbox" id="{{ product['product_name'] }} Night" name="night_product" value="{{ product['product_name'] }}"> 
+                    <label for="{{ product['product_name'] }}">{{ product['brand'] }} {{ product['product_name'] }}</label><br>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="dashboardcol rightcol">
+            <h3>Notifications</h3>
+
+            <p>Notifications feature coming soon!</p>
+        </div>
+    </div>
+
+</body>
+</html>
