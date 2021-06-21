@@ -5,7 +5,6 @@
 }
 
 header{
-    background-image: "{{ url_for('static', filename='web.jpg') }}";
     height: 110px;
     background-size: cover;
     background-position: center;

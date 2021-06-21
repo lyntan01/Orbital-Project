@@ -637,9 +637,141 @@ def leaderboard():
 @app.route('/forum', methods=['GET', 'POST'])
 def forum():
     if 'loggedin' in session:
-        ### INSERT CODE HERE ###
-        flash("Forum not ready, redirect to Search Products for now")
-        return redirect(url_for('search'))
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT Count(*) AS Count FROM `Forum Thread`''')
+        countThreads = cursor.fetchone()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT Count(DISTINCT username) AS Count FROM `Forum Thread`''')
+        countUsers = cursor.fetchone()
+
+        username = session['username']
+
+        posts = []
+        numReplies = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if request.method == 'POST' and 'search_term' in request.form:
+            search = request.form['search_term']
+            filterThread = request.form['filter']
+            if filterThread == 'Titles':
+                cursor.execute('SELECT * FROM `Forum Thread` WHERE title LIKE %s ORDER BY post_date DESC', (f'%{search}%',))
+            if filterThread == 'Descriptions':
+                cursor.execute('SELECT * FROM `Forum Thread` WHERE description LIKE %s ORDER BY post_date DESC', (f'%{search}%',))
+        else:
+            cursor.execute('''SELECT * FROM `Forum Thread` ORDER BY post_date DESC''')
+
+        results = cursor.fetchall()
+        for row in results:
+            posts.append(row)
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT COUNT(reply_ID) AS count FROM `Forum Reply` WHERE thread_ID = %s', (row['thread_ID'],))
+            adder = cursor.fetchone()
+            numReplies.append(adder)
+
+        return render_template('forum.html', posts=posts, username=username, countThreads = countThreads, countUsers = countUsers, numReplies = numReplies)
+
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/reply/<string:thread_ID>', methods = ['GET', 'POST'])
+def reply(thread_ID):
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT max(reply_ID) AS Maximum from `Forum Reply` WHERE thread_ID = %s', (thread_ID,))
+            biggest_ID = cursor.fetchone()
+            if biggest_ID['Maximum']!= None:
+                biggest_ID = biggest_ID['Maximum'] + 1
+            else:
+                biggest_ID = 1
+
+            date = datetime.today().strftime('%Y-%m-%d')
+            comment = request.form['comment']
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('''INSERT INTO `Forum Reply` VALUE(%s, %s, %s, %s, %s)''', (biggest_ID, thread_ID, session['username'], comment, date,))
+            mysql.connection.commit()
+            flash('Reply added!')
+
+        username = session['username']
+        posts = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Thread` WHERE thread_ID = %s''', (thread_ID,))
+        thread = cursor.fetchone()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Reply` WHERE thread_ID = %s ORDER BY post_date DESC''', (thread_ID,))
+        results = cursor.fetchall()
+        for row in results:
+            posts.append(row)
+        return render_template('reply.html', posts=posts, thread=thread, username=username, thread_ID = thread_ID)
+
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/deleteReply/<string:thread_ID>/<string:reply_ID>', methods=['GET', 'POST'] )
+def deleteReply(thread_ID, reply_ID):
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Forum Reply` WHERE thread_ID= %s AND reply_ID = %s', (thread_ID, reply_ID,))
+        mysql.connection.commit()
+        flash("Reply Deleted!")
+
+        username = session['username']
+        posts = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Thread` WHERE thread_ID = %s''', (thread_ID,))
+        thread = cursor.fetchone()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Reply` WHERE thread_ID = %s ORDER BY post_date DESC''', (thread_ID,))
+        results = cursor.fetchall()
+        for row in results:
+            posts.append(row)
+    
+        return redirect(url_for('reply', posts=posts, thread=thread, username=username, thread_ID = thread_ID))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/deleteThread/<string:thread_ID>', methods=['GET', 'POST'] )
+def deleteThread(thread_ID):
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Forum Thread` WHERE username = %s AND thread_ID = %s', (session['username'], thread_ID,))
+        mysql.connection.commit()
+        flash("Thread Deleted!")
+        return redirect(url_for('forum'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/addThread', methods=['GET', 'POST'] )
+def addThread():
+    if 'loggedin' in session:
+        if request.method == 'POST' and 'title' in request.form and 'description' in request.form:
+            title = request.form['title']
+            description = request.form['description']
+            date = datetime.today().strftime('%Y-%m-%d')
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT max(thread_ID) AS Maximum from `Forum Thread`')
+            biggest_ID = cursor.fetchone()
+            if biggest_ID['Maximum']!= None:
+                biggest_ID = biggest_ID['Maximum'] + 1
+            else:
+                biggest_ID = 1
+
+
+            cursor.execute('INSERT INTO `Forum Thread` VALUES (%s, %s, %s, %s, %s)', (biggest_ID, session['username'], title, description, date,))
+            mysql.connection.commit()
+
+            flash("Thread Added!")
+            return redirect(url_for('forum'))
+        else:
+            msg = ''
+            if request.method == 'POST' and not ('title' in request.form or 'description' in request.form):
+                msg = 'Fill in the Title/Description field!'
+            return render_template('addThread.html', msg = msg)
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
@@ -651,11 +783,12 @@ def logout():
         session.pop('member_id', None)
         session.pop('name', None)
         # Redirect to login page
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 

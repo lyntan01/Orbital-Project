@@ -11,8 +11,10 @@
             <input type="text" name="username" placeholder="Username" id="username" required>
             <input type="password" name="password" placeholder="Password" id="password" required>
             <input type="submit" name="" value="LOG IN">
-            <div class="msg">{{ msg }}</div>
+            <br>
         </form>
+        <div class="msglogin">{{ msg }}</div>
+        <br>
 
         <div class="signuplink">
             <a href="{{ url_for('signup') }}" class="siupli">Not a member? Sign up now!</a>
