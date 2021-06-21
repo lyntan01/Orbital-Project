@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Markup
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-from datetime import datetime, date, timedelta
+from datetime import datetime
 import time
 import math
 
@@ -12,7 +12,7 @@ app.secret_key = 'benefit'
 app.config['MYSQL_DB'] = 'The Curious Case Of Cosmetics'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Jenojinv1630'
+app.config['MYSQL_PASSWORD'] = 'T0107553a'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # Intialize MySQL
@@ -226,11 +226,11 @@ def edit(product_name, prev_page):
                     'INSERT INTO `Wishes` VALUES (%s, %s, %s)', (session['username'], product_name, date, )) 
             
             elif product_category == "Using" and not 'frequency_type' in request.form:
-                msg = 'Please fill in the Frequency of Usage field!'
+                msg = 'Please field in the Frequency of Usage field!'
                 return render_template('edit.html', product_name=product_name, prev_page=prev_page, msg=msg, date=date)
                        
             elif product_category == "Using" and not 'routine_category' in request.form:
-                msg = 'Please fill in the Routine Category field!'
+                msg = 'Please field in the Routine Category field!'
                 return render_template('edit.html', product_name=product_name, prev_page=prev_page, msg=msg,date=date)
             
             else:       
@@ -239,9 +239,6 @@ def edit(product_name, prev_page):
                 specific_days = request.form['specific_days']
                 frequency_type = request.form['frequency_type'] 
                 routine_category = request.form['routine_category']
-
-                if specific_days == "0": # default value
-                    specific_days = generateSpecificDays(frequency_type, int(frequency))
 
                 cursor.execute(
                     'INSERT INTO `Uses` VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (session['username'], product_name, frequency_type, frequency, specific_days, expiry, routine_category, date, ))
@@ -366,41 +363,32 @@ def add():
                         error_msg = 'This product is already in your ' + existingShelves[0] + "!"
                     # Product is not in any of the user's shelves
                     else:
-                        return render_template('add.html', product_name=product_name, today_date=date, error_msg=None) 
-            
-                search_term = request.form['search_term']
-                return redirect(url_for('search', search_term=search_term, error_msg=error_msg))
+                        return render_template('add.html', product_name=product_name, today_date=date) 
 
             # Form submitted is from Add page, to add product to Currently Using
-            else:
-                if 'frequency_type' not in request.form:
-                    error_msg = 'Please fill in the Frequency of Usage field!'
-                    return render_template('add.html', product_name=request.form['product_name'], today_date=datetime.today().strftime('%Y-%m-%d'), error_msg=error_msg) 
+            elif 'frequency_type' in request.form and 'routine_category' in request.form: 
+                product_name = request.form['product_name']
+                frequency_type = request.form['frequency_type']
+                frequency = request.form['frequency']
+                specific_days = request.form['specific_days']
+                expiry_date = request.form['expiry_date']
+                routine_category = request.form['routine_category']
+                date = datetime.today().strftime('%Y-%m-%d')
+
+                if specific_days == "0": # default value
+                    specific_days = generateSpecificDays(frequency_type, int(frequency))
                 
-                elif 'routine_category' not in request.form:
-                    error_msg = 'Please fill in the Routine Category field!'
-                    return render_template('add.html', product_name=request.form['product_name'], today_date=datetime.today().strftime('%Y-%m-%d'), error_msg=error_msg) 
+                cursor = mysql.connection.cursor()
+                cursor.execute(
+                    'INSERT INTO Uses VALUES(%s, %s, %s, %s, %s, %s, %s, %s)', 
+                    (session['username'], product_name, frequency_type, frequency, specific_days, expiry_date, routine_category, date,))
+                mysql.connection.commit()
 
-                else:
-                    product_name = request.form['product_name']
-                    frequency_type = request.form['frequency_type']
-                    frequency = request.form['frequency']
-                    specific_days = request.form['specific_days']
-                    expiry_date = request.form['expiry_date']
-                    routine_category = request.form['routine_category']
-                    date = datetime.today().strftime('%Y-%m-%d')
+                flash('Successfully added product to Currently Using!')
+                return redirect(url_for('using'))
 
-                    if specific_days == "0": # default value
-                        specific_days = generateSpecificDays(frequency_type, int(frequency))
-                    
-                    cursor = mysql.connection.cursor()
-                    cursor.execute(
-                        'INSERT INTO Uses VALUES(%s, %s, %s, %s, %s, %s, %s, %s)', 
-                        (session['username'], product_name, frequency_type, frequency, specific_days, expiry_date, routine_category, date,))
-                    mysql.connection.commit()
-
-                    flash('Successfully added product to Currently Using!')
-                    return redirect(url_for('using'))         
+            search_term = request.form['search_term']
+            return redirect(url_for('search', search_term=search_term, error_msg=error_msg))
     else:
             return "Error: You are not logged in. Please log in to view this page."
 
@@ -532,114 +520,159 @@ def review(product_name):
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'loggedin' in session:
-
-        # Find Currently Using products which are expiring in the next 30 days
-        new_date = date.today() + timedelta(days=30) 
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT p.brand, u.product_name, u.expiry_date 
-                        FROM Product p, Uses u
-	                    WHERE p.product_name = u.product_name 
-                            AND username = %s 
-                            AND expiry_date >= %s AND expiry_date <= %s
-                        ORDER BY expiry_date''', (session['username'], date.today(), new_date,))
-        expiring_products = cursor.fetchall()
-
-        # For each product, add number of days from today to the expiry date
-        for product in expiring_products:
-            num_days_left = product["expiry_date"] - date.today()
-            product["num_days_left"] = num_days_left.days
-        
-        # Find Day Routine products of user
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT p.brand, u.product_name, u.frequency_type, u.specific_days 
-                        FROM Product p, Uses u
-                        WHERE p.product_name = u.product_name 
-                            AND username = %s
-                            AND (routine_category = 'Day' OR routine_category = 'Both')
-                        ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (session['username'],))
-        day_routine_tuple = cursor.fetchall()
-        day_routine = []
-
-        # Filter Day Routine products for that particular day
-        for product in day_routine_tuple:
-
-            if product["frequency_type"] == "Daily":
-                day_routine.append(product)
-            else:
-                specific_days = product["specific_days"].split(",")
-
-                # Check if product should be used on this day of the week
-                day_of_week = str(date.today().isoweekday())
-                if product["frequency_type"] == "Weekly" and day_of_week in specific_days: 
-                    day_routine.append(product)
-
-                # Check if product should be used on this day of the month
-                day_of_month = str(date.today().day)
-                if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
-                    day_routine.append(product)
-
-        # Find Day Routine products of user
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT p.brand, u.product_name, u.frequency_type, u.specific_days 
-                        FROM Product p, Uses u
-                        WHERE p.product_name = u.product_name 
-                            AND username = %s
-                            AND (routine_category = 'Night' OR routine_category = 'Both')
-                        ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (session['username'],))
-        night_routine_tuple = cursor.fetchall()
-        night_routine = []
-
-        # Filter Day Routine products for that particular day
-        for product in night_routine_tuple:
-
-            if product["frequency_type"] == "Daily":
-                night_routine.append(product)
-            else:
-                specific_days = product["specific_days"].split(",")
-
-                # Check if product should be used on this day of the week
-                day_of_week = str(date.today().isoweekday())
-                if product["frequency_type"] == "Weekly" and day_of_week in specific_days: 
-                    night_routine.append(product)
-
-                # Check if product should be used on this day of the month
-                day_of_month = str(date.today().day)
-                if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
-                    night_routine.append(product)
-
-        return render_template('dashboard.html', username=session['username'], expiring_products=expiring_products, 
-            day_routine=day_routine, night_routine=night_routine, date=date.today())
+        ### INSERT CODE HERE ###
+        flash("Dashboard not ready, redirect to Search Products for now")
+        return redirect(url_for('search'))
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
 def leaderboard():
     if 'loggedin' in session:
-        products = []
-        # Check if 'skincare_or_makeup' POST request exists (user submitted form)
-        if request.method == 'POST' and 'skincare_or_makeup' in request.form:
-            type = request.form['skincare_or_makeup']
-            # Get top 10 products by average rating using MySQL
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                '''SELECT product_name, brand, average_rating 
-                FROM Product 
-                WHERE skincare_or_makeup = %s
-                ORDER BY average_rating DESC LIMIT 10''', (type,))
-            # Store search results into a dictionary
-            products = cursor.fetchall()
-            return render_template('leaderboard.html', products=products, type=type)
-        else:
-            return render_template('leaderboard.html', products=products, type=None)
+        ### INSERT CODE HERE ###
+        flash("Leaderboard not ready, redirect to Search Products for now")
+        return redirect(url_for('search'))
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
 @app.route('/forum', methods=['GET', 'POST'])
 def forum():
     if 'loggedin' in session:
-        ### INSERT CODE HERE ###
-        flash("Forum not ready, redirect to Search Products for now")
-        return redirect(url_for('search'))
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT Count(*) AS Count FROM `Forum Thread`''')
+        countThreads = cursor.fetchone()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT Count(DISTINCT username) AS Count FROM `Forum Thread`''')
+        countUsers = cursor.fetchone()
+
+        username = session['username']
+
+        posts = []
+        numReplies = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if request.method == 'POST' and 'search_term' in request.form:
+            search = request.form['search_term']
+            filterThread = request.form['filter']
+            if filterThread == 'Titles':
+                cursor.execute('SELECT * FROM `Forum Thread` WHERE title LIKE %s ORDER BY post_date DESC', (f'%{search}%',))
+            if filterThread == 'Descriptions':
+                cursor.execute('SELECT * FROM `Forum Thread` WHERE description LIKE %s ORDER BY post_date DESC', (f'%{search}%',))
+        else:
+            cursor.execute('''SELECT * FROM `Forum Thread` ORDER BY post_date DESC''')
+
+        results = cursor.fetchall()
+        for row in results:
+            posts.append(row)
+
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT COUNT(reply_ID) AS count FROM `Forum Reply` WHERE thread_ID = %s', (row['thread_ID'],))
+            adder = cursor.fetchone()
+            numReplies.append(adder)
+
+        return render_template('forum.html', posts=posts, username=username, countThreads = countThreads, countUsers = countUsers, numReplies = numReplies)
+
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/reply/<string:thread_ID>', methods = ['GET', 'POST'])
+def reply(thread_ID):
+    if 'loggedin' in session:
+        if request.method == 'POST':
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT max(reply_ID) AS Maximum from `Forum Reply` WHERE thread_ID = %s', (thread_ID,))
+            biggest_ID = cursor.fetchone()
+            if biggest_ID['Maximum']!= None:
+                biggest_ID = biggest_ID['Maximum'] + 1
+            else:
+                biggest_ID = 1
+
+            date = datetime.today().strftime('%Y-%m-%d')
+            comment = request.form['comment']
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('''INSERT INTO `Forum Reply` VALUE(%s, %s, %s, %s, %s)''', (biggest_ID, thread_ID, session['username'],comment,date,))
+            mysql.connection.commit()
+            flash('Reply added!')
+
+        username = session['username']
+        posts = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Thread` WHERE thread_ID = %s''', (thread_ID,))
+        thread = cursor.fetchone()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Reply` WHERE thread_ID = %s ORDER BY post_date DESC''', (thread_ID,))
+        results = cursor.fetchall()
+        for row in results:
+            posts.append(row)
+        return render_template('reply.html', posts=posts, thread=thread, username=username, thread_ID = thread_ID)
+
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/deleteReply/<string:thread_ID>/<string:reply_ID>', methods=['GET', 'POST'] )
+def deleteReply(thread_ID, reply_ID):
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Forum Reply` WHERE thread_ID= %s AND reply_ID = %s', (thread_ID, reply_ID,))
+        mysql.connection.commit()
+        flash("Reply Deleted!")
+
+        username = session['username']
+        posts = []
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Thread` WHERE thread_ID = %s''', (thread_ID,))
+        thread = cursor.fetchone()
+
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('''SELECT * FROM `Forum Reply` WHERE thread_ID = %s ORDER BY post_date DESC''', (thread_ID,))
+        results = cursor.fetchall()
+        for row in results:
+            posts.append(row)
+    
+        return redirect(url_for('reply', posts=posts, thread=thread, username=username, thread_ID = thread_ID))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/deleteThread/<string:thread_ID>', methods=['GET', 'POST'] )
+def deleteThread(thread_ID):
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Forum Thread` WHERE username = %s AND thread_ID = %s', (session['username'], thread_ID,))
+        mysql.connection.commit()
+        flash("Thread Deleted!")
+        return redirect(url_for('forum'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/addThread', methods=['GET', 'POST'] )
+def addThread():
+    if 'loggedin' in session:
+        if request.method == 'POST' and 'title' in request.form and 'description' in request.form:
+            title = request.form['title']
+            description = request.form['description']
+            date = datetime.today().strftime('%Y-%m-%d')
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT max(thread_ID) AS Maximum from `Forum Thread`')
+            biggest_ID = cursor.fetchone()
+            if biggest_ID['Maximum']!= None:
+                biggest_ID = biggest_ID['Maximum'] + 1
+            else:
+                biggest_ID = 1
+
+
+            cursor.execute('INSERT INTO `Forum Thread` VALUES (%s, %s, %s, %s, %s)', (biggest_ID, session['username'], title, description, date,))
+            mysql.connection.commit()
+
+            flash("Thread Added!")
+            return redirect(url_for('forum'))
+        else:
+            msg = ''
+            if request.method == 'POST' and not ('title' in request.form or 'description' in request.form):
+                msg = 'Fill in the Title/Description field!'
+            return render_template('addThread.html', msg = msg)
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
@@ -651,7 +684,7 @@ def logout():
         session.pop('member_id', None)
         session.pop('name', None)
         # Redirect to login page
-        return redirect(url_for('login'))
+        return redirect(url_for('index'))
     else:
         return "Error: You are not logged in. Please log in to view this page."
 

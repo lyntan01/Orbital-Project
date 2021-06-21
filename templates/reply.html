@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial-scale = 1.0">
+        <title>Forum</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel = "stylesheet" href="{{ url_for('static', filename='css/forumStyle.css') }}">
+    </head>
+    <body>
+        <header>
+            <div class = "main">
+                <div class="logo">
+                    <a href ="dashboard.html"> <img src = "{{ url_for('static', filename='logo.png') }}"></a>
+                </div>
+                <ul>
+                    <li><a href="{{ url_for('routine') }}">My Products</a></li>
+                    <li><a href="{{ url_for('search') }}">Search Products</a></li>
+                    <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+                    <li><a href="{{ url_for('forum') }}">Forum</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+
+                </ul>
+            </div>
+        </header>
+
+        <button class = "back_btn"><a href="/forum" class="btn btn-secondary btn-sm"><i class="fa fa-chevron-left"> BACK</i></a></button>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class = "flashes" style="margin-top: 60px; margin-left: 500px; padding: 0%; margin-bottom: 0px;">
+            {{ messages[0] }} 
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="container">
+            <div class = "thread_display">
+                <div class = "thread_info">
+                    Created by <a href="/{{thread.username}}/profile">{{thread.username}}</a> on <b>{{thread.post_date}}</b>
+                </div>
+                <h2>{{thread.title}}</h2>
+
+                <div class = 'thread_content'>
+                    {{thread.description}}
+                </div>
+                <br>
+                <br>
+                <button onclick= "showComment()" class="comment_btn"><i class="fa fa-comments-o"> Comment</i></button>
+            </div>
+
+            <!--Display Comments-->
+            <br>
+            <br>
+            <div class="topic-container">
+                <div class = "head">
+                    <div class ="authors">Author</div>
+                    <div class = "content">Replies</div>
+                </div>
+                {% for post in posts %}
+                <div class = "body">
+                    <div class = "authors">
+                        <div class = "username"><a href = "/{{post.username}}/profile">{{post.username}}</a></div><br>
+                        <img src = https://cdn.pixabay.com/photo/2016/03/23/04/57/cat-1274094_1280.png alt = ''><br>
+                        <div class = "date"><b>Posted</b> on <b>{{post.post_date}}</b></div>
+                    </div>
+
+                    <div class = 'content'>
+                        {{post.text_content}}
+                    </div>
+                    <div class = 'del_button'>
+                        {% if post.username == username %}
+                        <a href="/deleteReply/{{post.thread_ID}}/{{post.reply_ID}}" class="btn btn-secondary btn-sm" style="float:right;"><u>Delete</u></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!--Comment input-->
+            <div class = "comment-area" id = "comment-area" style = "display: none;">
+                <form action = "{{ url_for('reply',  posts=posts, thread=thread, username=username, thread_ID = thread_ID) }}" method = "post">
+                <textarea  name="comment" id="comment" placeholder = "comment here..." required></textarea>
+                <input type = "submit" value = "submit">
+                </form>
+            </div>
+        </div>
+        <br><br>
+        <script src="{{ url_for('static', filename='js/Main.js') }}"></script>
+    </body>
+</html>

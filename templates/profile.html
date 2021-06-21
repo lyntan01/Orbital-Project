@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/profileStyle.css"> -->
     <title>My Profile</title>
 </head>
 <body>
@@ -59,6 +60,9 @@
     </table>
     {% endif %}
 
+    <!-- <br><button class="logout" type="button">Logout</button> -->
+    
+    <!-- CHANGE HREF TO "url_for('logout')" WHEN MERGING  -->
     <div class="logout">
         <a href="{{ url_for('logout') }}" class="logoutbutton">Logout</a>
     </div>

@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forumStyle.css') }}">
+    <title>addThread</title>
+</head>
+<body>
+    <header>
+        <div class = "main">
+            <div class="logo">
+                <a href ="dashboard.html"> <img src = "{{ url_for('static', filename='logo.png') }}"></a>
+            </div>
+            <ul>
+                <li ><a href="{{ url_for('routine') }}">My Products</a></li>
+                <li><a href="{{ url_for('search') }}">Search Products</a></li>
+                <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+                <li><a href="{{ url_for('forum') }}">Forum</a></li>
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+
+            </ul>
+        </div>
+    </header>
+
+
+    <br>
+
+    <form class = "adding" action = "{{ url_for('addThread', msg=msg) }}" method = "post">
+
+        <h2 style="text-align: center;">Add Thread</h2>
+
+        <label for="title">Title:</label><br>
+        <input class = "title" type="text" name="title" id="title" required><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea class = "description" type="text" name="description" id="description" required></textarea><br><br>
+        
+        <input type="submit" value="Add">
+
+        <br>
+        <br>
+    </form>
+    <div class="msg">{{ msg }}</div>
+    <br>
+    <br>
+    <br>
+</div>
+
+</body>
+</html>
