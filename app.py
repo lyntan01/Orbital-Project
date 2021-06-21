@@ -669,7 +669,7 @@ def forum():
             adder = cursor.fetchone()
             numReplies.append(adder)
 
-        return render_template('forum.html', posts=posts, username=username, countThreads = countThreads, countUsers = countUsers, numReplies = numReplies)
+        return render_template('forum.html', posts=posts, username=username, countThreads=countThreads, countUsers=countUsers, numReplies=numReplies)
 
     else:
         return "Error: You are not logged in. Please log in to view this page."
@@ -686,7 +686,7 @@ def reply(thread_ID):
             else:
                 biggest_ID = 1
 
-            date = datetime.today().strftime('%Y-%m-%d')
+            date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             comment = request.form['comment']
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute('''INSERT INTO `Forum Reply` VALUE(%s, %s, %s, %s, %s)''', (biggest_ID, thread_ID, session['username'], comment, date,))
@@ -730,7 +730,7 @@ def deleteReply(thread_ID, reply_ID):
         for row in results:
             posts.append(row)
     
-        return redirect(url_for('reply', posts=posts, thread=thread, username=username, thread_ID = thread_ID))
+        return redirect(url_for('reply', posts=posts, thread=thread, username=username, thread_ID=thread_ID))
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
@@ -752,7 +752,7 @@ def addThread():
         if request.method == 'POST' and 'title' in request.form and 'description' in request.form:
             title = request.form['title']
             description = request.form['description']
-            date = datetime.today().strftime('%Y-%m-%d')
+            date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.execute('SELECT max(thread_ID) AS Maximum from `Forum Thread`')
             biggest_ID = cursor.fetchone()
