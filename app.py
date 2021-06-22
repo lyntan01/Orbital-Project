@@ -9,17 +9,17 @@ app = Flask(__name__)
 app.secret_key = 'benefit'
 
 # database connection details (local)
-# app.config['MYSQL_DB'] = 'The Curious Case Of Cosmetics'
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = 'Jenojinv1630'
+app.config['MYSQL_DB'] = 'The Curious Case Of Cosmetics'
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'Jenojinv1630'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # database connection details (heroku)
-app.config['MYSQL_DB'] = 'heroku_6a15b81e32c4217'
-app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
-app.config['MYSQL_USER'] = 'b8ee7e3fb778a2'
-app.config['MYSQL_PASSWORD'] = '82cbd045'
+# app.config['MYSQL_DB'] = 'heroku_6a15b81e32c4217'
+# app.config['MYSQL_HOST'] = 'us-cdbr-east-04.cleardb.com'
+# app.config['MYSQL_USER'] = 'b8ee7e3fb778a2'
+# app.config['MYSQL_PASSWORD'] = '82cbd045'
 
 # Intialize MySQL
 mysql = MySQL(app)
@@ -88,6 +88,7 @@ def signup():
                 'INSERT INTO `Member User` VALUES (%s, %s, %s, %s, %s, %s )', (username, firstname, lastname, gender, password, email,))
             mysql.connection.commit()
             msg = 'You have successfully registered!'
+            return render_template('login.html', msg=msg)
 
     # Show registration form with message (if any)
     return render_template('signup.html', msg=msg)
