@@ -43,6 +43,7 @@ CREATE TABLE `Forum Thread` (
     username		VARCHAR(30) NOT NULL,
     title			VARCHAR(150) NOT NULL,
     `description`	TEXT(40000),
+    post_date 		DATETIME NOT NULL,
     PRIMARY KEY (thread_ID),
     FOREIGN KEY (username) REFERENCES `Member User`(username) ON DELETE NO ACTION ON UPDATE CASCADE,
     UNIQUE (thread_ID));
@@ -52,6 +53,7 @@ CREATE TABLE `Forum Reply` (
     thread_ID		INT NOT NULL,
     username		VARCHAR(30) NOT NULL,
     text_content	TEXT(40000) NOT NULL,
+    post_date 		DATETIME NOT NULL,
     PRIMARY KEY (reply_ID, thread_ID, username),
     FOREIGN KEY (thread_ID) REFERENCES `Forum Thread`(thread_ID) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (username) REFERENCES `Member User`(username) ON DELETE NO ACTION ON UPDATE CASCADE);
@@ -92,10 +94,6 @@ CREATE TABLE Wishes (
 INSERT INTO `Member User` VALUES('kx_ein', 'ke xin', 'xie', 'F', 'bleh', 'gmail');
 INSERT INTO `Member User` VALUES('lyntanrambutan', 'Lyn', 'Tan', 'F', 'jeno', 'gmail.com');
 INSERT INTO `Member User` VALUES('vicki', 'Vicki', 'Tan', 'F', 'bicki', 'vicki@gmail.com');
-
-INSERT INTO `Forum Thread` VALUES(1, 'kx_ein', 'TEST', null);
-INSERT INTO `Forum Reply` VALUES(1, 1, 'kx_ein', 'hello');
-DELETE FROM `Forum Thread` WHERE thread_ID = 1;
 
 INSERT INTO `Product` VALUES('Auto Eyebrow Pencil', 'Innisfree', 'Makeup', 0.00, null);
 INSERT INTO `Product` VALUES('Jeju Cherry Blossom Tone-up Cream', 'Innisfree', 'Skincare', 0.00, null);
