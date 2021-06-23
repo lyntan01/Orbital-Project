@@ -158,16 +158,16 @@ Users can click on the *Click here to add a product* hyperlink from the Search P
 Users can input the details (product name, brand and type) of the beauty product they wish to add to the community database. 
 After adding the product to the database, they will be redirected back to the search page with the product they just added automatically "searched" for them. This is for users' convenience, should they wish to leave a review on that product or add it to *My Products*. (see below)
 
+![createsuccess](https://i.imgur.com/k5CgxKH.png)
+
 Note:
 * Products that are newly added will have a default average rating of 0. The average rating will be updated once users start leaving reviews of that product.
-
-![createsuccess](https://i.imgur.com/k5CgxKH.png)
 
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.8 Add Product to My Products**
 
-This feature allows users to add a product to one of the categories in *My Products* (Shelved, Currently Using, or Wish List).
+This feature allows users to add a product to one of the categories in *My Products* (Currently Using, Shelved or Wish List).
 
 ![add](https://i.imgur.com/ClXpY5i.png)
 
@@ -282,7 +282,7 @@ Navigate back to the feature list: [2.3 Private Features : Social](#23-private-f
 
 #### **2.3.2 Leaderboard**
 
-This feature allows users to see the Top 10 skincare products and top 10 makeup products, ranked based on the products' average rating given by our users.
+This feature allows users to see the Top 10 skincare products and Top 10 makeup products, ranked based on the products' average rating given by our users.
 
 ![leaderboard](https://i.imgur.com/BtZVleJ.png)
 
