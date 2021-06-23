@@ -38,29 +38,28 @@ With the deluge of beauty products in the market today, many are overwhelmed by 
 
 Furthermore, it is difficult to find people around them who use the same type of beauty products as them. This makes it challenging when they want to discuss specific beauty issues or discover the latest trending product. 
 
-
 ### 1.2 Project Aim 
 
 We hope to solve beauty enthusiasts’ woes through an integrated web application. Leveraging on the experience and knowledge gathered through crowdsourcing, the community of beauty product users can optimise their purchase and use of beauty products. Our web application also serves as a tool to organise users’ many beauty products and visualise their beauty routines. Moreover, we hope to provide a platform for like-minded users to connect.
 
 ## 2. Features and Usage
 
-### 2.1 Public Features
+### **2.1 Public Features**
 
   * [2.1.1 Home](#211-home)
   * [2.1.2 About](#212-about)
   * [2.1.3 Login](#213-login)
   * [2.1.4 Register](#214-register)
 
-#### 2.1.1 Home
+#### **2.1.1 Home**
 
-#### 2.1.2 About
+#### **2.1.2 About**
 
-#### 2.1.3 Login
+#### **2.1.3 Login**
 
-#### 2.1.4 Register
+#### **2.1.4 Register**
 
-### 2.2 Private Features : Personal
+### **2.2 Private Features : Personal**
 
   * [2.2.1 Dashboard](#221-dashboard)
   * [2.2.2 My Products : My Beauty Routine](#222-my-products--my-beauty-routine)
@@ -72,35 +71,75 @@ We hope to solve beauty enthusiasts’ woes through an integrated web applicatio
   * [2.2.8 Profile](#228-profile)
   * [2.2.9 Logout](#229-logout)
 
-#### 2.2.1 Dashboard
+#### **2.2.1 Dashboard**
 
-#### 2.2.2 My Products : My Beauty Routine
+This feature allows users to view all their important information at one glance. 
 
-#### 2.2.3 My Products : Currently Using
+![dashboard](https://i.imgur.com/gKMPwKY.jpg)
 
-#### 2.2.4 My Products : Shelved
+*How to access this feature*: 
 
-#### 2.2.5 My Products : Wish List
+Upon login, users are automatically brought to their dashboard. Users can also click the icon in the top left corner of the page to access their dashboard.
 
-#### 2.2.6 Search Products
+*Functions*:
 
-#### 2.2.7 Add Product to My Products
+* **Reminders for upcoming expiry dates**
 
-#### 2.2.8 Profile
+Users can view expiry date reminders for products that the user is currently using (i.e. in the user's Currently Using shelf), which will be expiring in the next 30 days. The products are listed with the product expiring the soonest on the leftmost. 
 
-#### 2.2.9 Logout
+* **Checklist for day and night beauty routines**
 
-### 2.3 Private Features : Social
+Users can keep track of their beauty routines and check off the products they have already used by clicking on the product in the checklist. The checkbox beside the product will be pink if it has been used, and white if it has not. 
+
+* **Notifications from forum (Coming soon in Milestone 3)**
+
+Users will be notified of new replies made to forum threads they created. Clicking on the notification will bring the user to the specific forum thread in the notification.
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+#### **2.2.2 My Products : My Beauty Routine**
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+#### **2.2.3 My Products : Currently Using**
+
+#### **2.2.4 My Products : Shelved**
+
+#### **2.2.5 My Products : Wish List**
+
+#### **2.2.6 Search Products**
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+#### **2.2.7 Add Product to My Products**
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+#### **2.2.8 Profile**
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+#### **2.2.9 Logout**
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+### **2.3 Private Features : Social**
 
   * [2.3.1 Leave a Review](#231-leave-a-review)
   * [2.3.2 Leaderboard](#232-leaderboard)
   * [2.3.3 Forum](#233-forum)
 
-#### 2.3.1 Leave a Review
+#### **2.3.1 Leave a Review**
 
-#### 2.3.2 Leaderboard
+Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
 
-#### 2.3.3 Forum
+#### **2.3.2 Leaderboard**
+
+Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
+
+#### **2.3.3 Forum**
+
+Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
 
 ## 3. Contributors
 
