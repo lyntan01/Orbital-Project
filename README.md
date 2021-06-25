@@ -5,6 +5,7 @@ This is a web application designed for all users of beauty products as a one-sto
 * [1. Introduction](#1-introduction)
    * [1.1 Project Motivation](#11-project-motivation)
    * [1.2 Project Aim](#12-project-aim)
+   * [1.3 Quick Start](#13-quick-start)
 * [2. Features and Usage](#2-features-and-usage)
    * [2.1 Public Features](#21-public-features)
       * [2.1.1 Home](#211-home)
@@ -34,6 +35,7 @@ This is a web application designed for all users of beauty products as a one-sto
 
   * [1.1 Project Motivation](#11-project-motivation)
   * [1.2 Project Aim](#12-project-aim)
+  * [1.3 Quick Start](#13-quick-start)
 
 ### 1.1 Project Motivation 
 
@@ -45,7 +47,17 @@ Furthermore, it is difficult to find people around them who use the same type of
 
 We hope to solve beauty enthusiasts’ woes through an integrated web application. Leveraging on the experience and knowledge gathered through crowdsourcing, the community of beauty product users can optimise their purchase and use of beauty products. Our web application also serves as a tool to organise users’ many beauty products and visualise their beauty routines. Moreover, we hope to provide a platform for like-minded users to connect.
 
+### 1.3 Quick Start
+
+Our web application can be accessed at https://thecuriouscaseofcosmetics.herokuapp.com.
+
+Clicking on the link above or entering that link into a browser will bring you to our home page. 
+
 ## 2. Features and Usage
+
+Public features can be viewed by anyone and do not require users to be logged in. 
+
+Private features can only be accessed by users who have logged in. Users who have not created an account and/or who have not logged in cannot access private features.
 
 ### **2.1 Public Features**
 
@@ -56,11 +68,49 @@ We hope to solve beauty enthusiasts’ woes through an integrated web applicatio
 
 #### **2.1.1 Home**
 
+This is the first page users will see when they access the web application. 
+
+![home](https://i.imgur.com/HSQB4XY.jpg)
+
+*How to access this feature*: 
+
+Upon accessing the web application, users are automatically brought to this home page. Users can also click on Home in the header of all public pages.
+
+*Function*:
+
+* **View the introductory video**
+
+To view the introductory video, click on the Watch Video button on the home page. Users will be brought to a page to view the video. (see below)
+
+![video](https://i.imgur.com/lKdmOna.jpg)
+
+To navigate back to the home page, click on Back to Home below the video.
+
+Navigate back to the feature list: [2.1 Public Features](#21-public-features)
+
 #### **2.1.2 About**
+
+This feature gives user information on this web application and its purpose.
+
+![about](https://i.imgur.com/uxdx3YS.jpg)
+
+*How to access this feature*: 
+
+Users can click on About in the header of all public pages.
+
+*Function*:
+
+* **View information about the aim of the website**
+
+Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
 #### **2.1.3 Login**
 
+Navigate back to the feature list: [2.1 Public Features](#21-public-features)
+
 #### **2.1.4 Register**
+
+Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
 ### **2.2 Private Features : Personal**
 
