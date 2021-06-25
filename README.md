@@ -106,9 +106,41 @@ Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
 #### **2.1.3 Login**
 
+This feature allows existing users to log into their accounts to access private features.
+
+![login](https://i.imgur.com/QzVZ9N5.jpg)
+
+*How to access this feature*: 
+
+Users can click on Login in the header of all public pages. Users can also click "Already a member? Log in now!" at the bottom of the Register page.
+
+*Function*:
+
+* **Log into account**
+
+Users can key in their username and password, then click the Log In button or press Enter.
+
 Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
 #### **2.1.4 Register**
+
+This feature allows new users to create an account to access private features.
+
+![register](https://i.imgur.com/vPxbLOK.jpg)
+
+*How to access this feature*: 
+
+Users can click on Login in the header of all public pages. Users can also click "Not a member? Sign up now!" at the bottom of the Login page.
+
+*Function*:
+
+* **Register for a new account**
+
+New users who are new to this website and do not have an existing account can register for one, by filling in their username, email, first name, last name, gender and password.
+
+Note:
+* All fields must be filled in to register for an account.
+* Each username can only be used by one user. If user is alerted that username already exists, please use a different username.
 
 Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
