@@ -29,6 +29,10 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
+@app.route('/video', methods=['GET', 'POST'])
+def video():
+    return render_template('video.html')
+
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     return render_template('about.html')
