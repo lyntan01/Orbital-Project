@@ -496,6 +496,9 @@ def create():
             
                 return redirect(url_for('search',search_term=product_name))
             
+        elif request.method == 'POST' and 'product_name' in request.form and 'brand' in request.form and 'skincare_or_makeup' not in request.form:
+            error_msg = "Please fill in Type of product!"
+
         return render_template('create.html', error_msg=error_msg)
     else:
         return "Error: You are not logged in. Please log in to view this page."
