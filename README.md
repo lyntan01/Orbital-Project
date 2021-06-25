@@ -21,9 +21,8 @@ This is a web application designed for all users of beauty products as a one-sto
       * [2.2.7 Create Product to Add to Database](#227-create-product-to-add-to-database)
       * [2.2.8 Add Product to My Products](#228-add-product-to-my-products)
       * [2.2.9 Edit Product](#229-edit-product)
-      * [2.2.10 Delete Product from My Products](#2210-delete-product-from-my-products)
-      * [2.2.11 Profile](#2211-profile)
-      * [2.2.12 Logout](#2212-logout)
+      * [2.2.10 Profile](#2210-profile)
+      * [2.2.11 Logout](#2211-logout)
    * [2.3 Private Features : Social](#23-private-features--social)
    		* [2.3.1 Leave a Review](#231-leave-a-review)
       * [2.3.2 Leaderboard](#232-leaderboard)
@@ -105,13 +104,104 @@ Navigate back to the feature list: [2.2 Private Features : Personal](#22-private
 
 #### **2.2.2 My Products : My Beauty Routine**
 
+This feature allows users to view the products they are currently using in table format, split into Day Routine and Night Routine. (see below)
+
+![Screenshot 2021-06-25 at 2.29.18 PM](https://i.imgur.com/INPSY9T.png)
+
+*How to access this feature*: 
+
+Users can click on *My Products* in the header of all pages. 
+
+*or*
+
+Users can click on *My Beauty Routine* in the sidebar if they are currently on one of the My Products pages.
+
+Note:
+* Only products under *Currently Using* will be reflected on *My Beauty Routine*.
+
+
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.3 My Products : Shelved**
+This feature allows user to view the products that they have shelved.
+
+![Screenshot 2021-06-25 at 2.35.40 PM](https://i.imgur.com/zfVB2p0.png)
+
+*How to access this feature*: 
+
+1) Users can click on *My Products* in the header of all pages.
+
+2) Users can click on *Shelved* in the sidebar of *My Products*
+
+*Functions*:
+
+* **Delete a product from Shelved**
+
+Users can click on the *Delete* button besides the product they wish to delete from the table. (see below)
+
+![Shelve Delete](https://i.imgur.com/9z6yk6E.png)
+
+* **Edit a product in Shelved (refer to 2.2.9 Edit Product for more details)**
+
+Users can click on the *Edit* button to access *Edit*, where they can make the intended amendments. (see below)
+
+![Shelve Edit](https://i.imgur.com/Fcayh9e.png)
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.4 My Products : Currently Using**
+This feature allows user to view the products that they are currently Using.
+
+![Currently Using](https://i.imgur.com/MfgwNin.png)
+
+*How to access this feature*: 
+
+1) Users can click on *My Products* in the header of all pages.
+
+2) Users can click on *Currently Using* in the sidebar of *My Products*
+
+*Functions*:
+
+* **Delete a product from Shelved**
+
+Users can click on the *Delete* button besides the product they wish to delete from the table. (see below)
+
+![Currently Using Delete](https://i.imgur.com/WxHtwJz.png)
+
+* **Edit a product in Shelved (refer to 2.2.9 Edit Product for more details)**
+
+Users can click on the *Edit* button to access *Edit*, where they can make the intended amendments. (see below)
+
+![Currently Using Edit](https://i.imgur.com/pb4YHcb.png)
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.5 My Products : Wish List**
+This feature allows user to view the products that are in their wish lists.
+
+![Wish](https://i.imgur.com/u5dj7YY.png)
+
+*How to access this feature*: 
+
+1) Users can click on *My Products* in the header of all pages.
+
+2) Users can click on *Wish List* in the sidebar of *My Products*
+
+*Functions*:
+
+* **Delete a product from Wish List**
+
+Users can click on the Delete button besides the product they wish to delete from the table. (see below)
+
+![Wish Delete](https://i.imgur.com/36FCllB.png)
+
+* **Edit a product in Wish List (refer to 2.2.9 Edit Product for more details)**
+
+Users can click on the Edit button to access *Edit*, where they can make the intended amendments. (see below)
+
+![Wish Edit](https://i.imgur.com/Co00cVR.png)
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.6 Search Products**
 
@@ -205,10 +295,66 @@ For example, if a user indicates a product to be used 3 times a week with specif
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.9 Edit Product**
+This feature allows user to edit the product information in their *My Products* page.
 
-#### **2.2.10 Delete Product from My Products**
+![Edit](https://i.imgur.com/l69sRYa.png)
 
-#### **2.2.11 Profile**
+*How to access this feature*:
+
+Click on the edit button besides any product on any one of the *My Product* pages.
+
+*Function*:
+
+* **Editing a product to place it into *Shelved***
+Users can indicate the My Products Category as *Shelved*  to move the product into *Shelved*. (see below)
+
+![Edit Shelved](https://i.imgur.com/L5KSIHL.png)
+
+After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
+
+Note:
+* To edit a previously added product to *Shelved*, users only need to fill up the My Products Category option. All other inputs filled up by the user will be ignored. 
+
+* If product is already in *Shelved*, the product will remain in this category, but the shelved date will be updated to the date of edit 
+
+* **Editing a product to place it into *Wish List***
+Users can indicate the My Products Category as *Wish List* to move the product into *Wish List*. (see below)
+
+![Edit Wish](https://i.imgur.com/2zrolpm.png)
+
+After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
+
+Note:
+* To edit a previously added product to *Wish List*, users only need to fill up the My Products Category option. All other inputs filled up by the user will be ignored. 
+
+* If product is already in *Wish List*, the product will remain in this category, but the wished date will be updated to the date of edit 
+
+* **Editing a product to place it into Currently Using**
+
+ Users will then be required to fill up additional details for usage of the product, namely its expiry date, frequency of usage, and which beauty routine it should be in.
+
+If the user indicates a weekly or monthly usage, the default number of times to use it would be once a week on Mondays / once a month on the 1st of each month respectively. 
+
+If the user wishes to specify more detailed, personalised usage of the product, the user can fill up the optional fields. For instance, if one wishes to use the product twice a week on Tuesdays and Thursdays, one would fill up the optional fields as such (see example below).
+
+If the user wishes to use the product a certain number of times a week / month but has no preference for which specific days to use it on, the user can leave the *Specific days to use product* portion empty and our app will automatically allocate days to use the product on. 
+
+![Edit copy](https://i.imgur.com/zZuo0wv.png)
+
+After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
+
+Note:
+* If product is already in the *Currently Using*, the product will remain in this category, but the relevant information will be updated.
+* Expiry date of the product is assumed to be the date of edit unless otherwise indicated.
+* If the user indicates *n* times to use a product per week/month and specifies fewer than *n* specific days to use the product on, the display of the product in the beauty routine checklists on the Dashboard will follow the specified days. 
+For example, if a user indicates a product to be used 3 times a week with specific days indicated as '1,3', the beauty routine checklists will only show the product on Mondays and Wednesdays.
+
+
+
+
+Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
+
+#### **2.2.10 Profile**
 
 This feature allows users to view a profile of a user.
 
@@ -228,7 +374,7 @@ Users can view the user's first name, last name, gender and email address.
 
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
-#### **2.2.12 Logout**
+#### **2.2.11 Logout**
 
 This feature allows users to logout of their account.
 
