@@ -117,7 +117,7 @@ Users can click on *My Products* in the header of all pages.
 Users can click on *My Beauty Routine* in the sidebar if they are currently on one of the My Products pages.
 
 Note:
-* Only products under *Currently Using* will be reflected on *My Beauty Routine*.
+* Only products under *Currently Using* will be reflected in *My Beauty Routine*.
 
 
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
@@ -150,7 +150,7 @@ Users can click on the *Edit* button to access *Edit*, where they can make the i
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.4 My Products : Currently Using**
-This feature allows user to view the products that they are currently Using.
+This feature allows user to view the products that they are Currently Using.
 
 ![Currently Using](https://i.imgur.com/MfgwNin.png)
 
@@ -306,32 +306,31 @@ Click on the edit button besides any product on any one of the *My Product* page
 *Function*:
 
 * **Editing a product to place it into *Shelved***
+
 Users can indicate the My Products Category as *Shelved*  to move the product into *Shelved*. (see below)
+
+If product is already in *Shelved*, the product will remain in this category, but the shelved date will be updated to the date of edit 
 
 ![Edit Shelved](https://i.imgur.com/L5KSIHL.png)
 
 After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
 
-Note:
-* To edit a previously added product to *Shelved*, users only need to fill up the My Products Category option. All other inputs filled up by the user will be ignored. 
-
-* If product is already in *Shelved*, the product will remain in this category, but the shelved date will be updated to the date of edit 
 
 * **Editing a product to place it into *Wish List***
+
 Users can indicate the My Products Category as *Wish List* to move the product into *Wish List*. (see below)
+
+If product is already in *Wish List*, the product will remain in this category, but the wished date will be updated to the date of edit.
 
 ![Edit Wish](https://i.imgur.com/2zrolpm.png)
 
-After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
 
-Note:
-* To edit a previously added product to *Wish List*, users only need to fill up the My Products Category option. All other inputs filled up by the user will be ignored. 
+After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on. (see below)
 
-* If product is already in *Wish List*, the product will remain in this category, but the wished date will be updated to the date of edit 
 
 * **Editing a product to place it into Currently Using**
 
- Users will then be required to fill up additional details for usage of the product, namely its expiry date, frequency of usage, and which beauty routine it should be in.
+Users will then be required to fill up additional details for usage of the product, namely its expiry date, frequency of usage, and which beauty routine it should be in.
 
 If the user indicates a weekly or monthly usage, the default number of times to use it would be once a week on Mondays / once a month on the 1st of each month respectively. 
 
@@ -341,16 +340,15 @@ If the user wishes to use the product a certain number of times a week / month b
 
 ![Edit copy](https://i.imgur.com/zZuo0wv.png)
 
+If product is already in the *Currently Using*, the product will remain in this category, but the relevant information will be updated.
+
 After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
 
 Note:
-* If product is already in the *Currently Using*, the product will remain in this category, but the relevant information will be updated.
+* To edit a previously added product to *Wish List* or *Shelved*, users only need to fill up the My Products Category option. All other inputs filled up by the user will be ignored.
 * Expiry date of the product is assumed to be the date of edit unless otherwise indicated.
 * If the user indicates *n* times to use a product per week/month and specifies fewer than *n* specific days to use the product on, the display of the product in the beauty routine checklists on the Dashboard will follow the specified days. 
 For example, if a user indicates a product to be used 3 times a week with specific days indicated as '1,3', the beauty routine checklists will only show the product on Mondays and Wednesdays.
-
-
-
 
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
@@ -397,7 +395,9 @@ Navigate back to the feature list: [2.2 Private Features : Personal](#22-private
 
   * [2.3.1 Leave a Review](#231-leave-a-review)
   * [2.3.2 Leaderboard](#232-leaderboard)
-  * [2.3.3 Forum](#233-forum)
+  * [2.3.3 Forum Thread](#233-forum-thread)
+  * [2.3.4 Add Thread](#234-add-thread)
+  * [2.3.3 Forum Reply](#235-forum-reply)
 
 #### **2.3.1 Leave a Review**
 
@@ -450,7 +450,111 @@ Users can view the Top 10 makeup products by clicking on the *Makeup* button in 
 
 Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
 
-#### **2.3.3 Forum**
+#### **2.3.3 Forum Thread**
+
+This feature allows user to interact with other members of the community, facilitating the discussion of beauty issues.
+
+*How to access this feature*: 
+
+Users can click on *Forum* in the header of all pages.
+
+*Function*:
+* **Search Threads**
+
+Users can choose ‘Titles’ or ‘Descriptions’ in the drop-down box before entering the keywords into the search bar. Then, users can click the button with the magnifying glass icon to run the search. (see below)
+
+![Search Thread](https://i.imgur.com/k7GGStj.png)
+
+If user chose ‘Titles’, all threads whose title contains the keyword(s) entered into the search bar will be displayed. 
+
+If user chose ‘Descriptions’, all threads whose description contains the keyword(s) entered into the search bar will be displayed. 
+
+* **Add Threads ((refer to 2.3.4 Add Thread for more details)**
+Users can click on the *Plus* button, which will direct them *Add Thread*, where they will be able to create their own forum posts. (see below)
+
+![Add Thread](https://i.imgur.com/snHXvcG.png)
+
+* **Access *Forum Reply***
+
+User can click the title of any thread in *Forum Thread*, which will direct them to *Forum Reply* of the corresponding thread. (see below)
+
+![Screenshot 2021-06-26 at 12.13.21 AM](https://i.imgur.com/lby00lm.png)
+
+* **Delete Thread**
+
+Users can click the *Delete* button at the bottom right-hand corner of any thread started by the users themselves. (see below)
+
+![Screenshot 2021-06-26 at 2.09.49 AM](https://i.imgur.com/EIVmlWY.png)
+
+The Thread and its replies will no longer be avilable on any page.
+
+* **Visit profiles of other users** 
+
+Users can click on the username or the word "Created" on the right-hand side of each thread to be directed to the profile with the corresponding username. (see below)
+
+![Screenshot 2021-06-26 at 2.09.49 AM](https://i.imgur.com/qRwuqpr.png)
+ 
+
+Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
+
+#### **2.3.4 Add Thread**
+This feature allows users to add threads to *Forum Thread*.
+
+*How to access this feature*: 
+
+
+Users can click the *plus* button located in the search bar on *Forum Thread*. (see below)
+
+![Add Thread](https://i.imgur.com/snHXvcG.png)
+
+*Function*:
+
+* **Add Thread to *Forum Thread***
+
+Users can enter the title and description of the new thread and click the *Add* button. (see below)
+
+![Screenshot 2021-06-25 at 11.10.46 PM](https://i.imgur.com/Bja8kak.png)
+
+Users will be directed back to *Forum Thread*, where the thread they have added will appear on the page.
+
+Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
+
+#### **2.3.5 Forum Reply**
+This feature allows users to reply to threads and view replies made by other users.
+
+*How to access this feature*: 
+
+Click the title of any thread in *Forum Thread*. (see below)
+
+![Screenshot 2021-06-26 at 12.13.21 AM](https://i.imgur.com/lby00lm.png)
+
+*Function*:
+* **Post reply to a thread**
+
+Users can click on the ‘Comment’ button at the bottom of the thread description, making the Comment box appear at the bottom of *Forum Reply*. 
+
+Users can then enter the reply in the Comment box and press the *Submit* button. (see below)
+
+![reply](https://i.imgur.com/a8CoAG9.png)
+
+* **Delete forum reply** 
+
+Users can delete the thread replies they themselves posted by clicking the *Delete* button at the bottom right-hand corner of any reply posted by themselves. (see below)
+
+![Screenshot 2021-06-26 at 12.29.41 AM](https://i.imgur.com/h1viDu8.png)
+
+* **Return to *Forum Thread*** 
+
+Users can click the *< BACK* button to return to *Forum Thread*.
+
+![Screenshot 2021-06-26 at 12.16.35 AM](https://i.imgur.com/p2RO18L.png)
+
+* **Visit profiles of other users** 
+
+Users can click on the username either at the top of the thread or at the top of any reply to be directed to the profile with the corresponding username. (see below)
+
+![Screenshot 2021-06-26 at 12.58.34 AM](https://i.imgur.com/0iBVTI1.png)
+ 
 
 Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
 
