@@ -468,8 +468,8 @@ def create():
 
         if request.method == 'POST' and 'product_name' in request.form and 'brand' in request.form and 'skincare_or_makeup' in request.form:
             # Create variables for easy access
-            product_name = request.form['product_name'].title()
-            brand = request.form['brand']
+            product_name = request.form['product_name'].title().strip()
+            brand = request.form['brand'].strip()
             skincare_or_makeup = request.form['skincare_or_makeup']
             average_rating = 0.00
             # photo = request.form['photo']
