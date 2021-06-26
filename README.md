@@ -192,11 +192,7 @@ This feature allows users to view the products they are currently using in table
 
 *How to access this feature*: 
 
-Users can click on *My Products* in the header of all pages. 
-
-*or*
-
-Users can click on *My Beauty Routine* in the sidebar if they are currently on one of the My Products pages.
+Users can click on *My Products* in the header of all pages. Users can also click on *My Beauty Routine* in the sidebar if they are currently on one of the My Products pages.
 
 Note:
 * Only products under *Currently Using* will be reflected in *My Beauty Routine*.
@@ -205,15 +201,14 @@ Note:
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.3 My Products : Shelved**
-This feature allows user to view the products that they have shelved.
 
+This feature allows users to view the products that they have shelved (products that they have tried before but do not wish to continue using)
+.
 ![Screenshot 2021-06-25 at 2.35.40 PM](https://i.imgur.com/zfVB2p0.png)
 
 *How to access this feature*: 
 
-1) Users can click on *My Products* in the header of all pages.
-
-2) Users can click on *Shelved* in the sidebar of *My Products*
+Users can click on *My Products* in the header of all pages, then on *Shelved* in the sidebar of *My Products*.
 
 *Functions*:
 
@@ -232,15 +227,13 @@ Users can click on the *Edit* button to access *Edit*, where they can make the i
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.4 My Products : Currently Using**
-This feature allows user to view the products that they are Currently Using.
+This feature allows user to view the products that they are currently using.
 
 ![Currently Using](https://i.imgur.com/MfgwNin.png)
 
 *How to access this feature*: 
 
-1) Users can click on *My Products* in the header of all pages.
-
-2) Users can click on *Currently Using* in the sidebar of *My Products*
+Users can click on *My Products* in the header of all pages, then on *Currently Using* in the sidebar of *My Products*.
 
 *Functions*:
 
@@ -259,15 +252,14 @@ Users can click on the *Edit* button to access *Edit*, where they can make the i
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.5 My Products : Wish List**
-This feature allows user to view the products that are in their wish lists.
+
+This feature allows users to view the products that are in their wish list (products that they wish to use but have yet to try).
 
 ![Wish](https://i.imgur.com/u5dj7YY.png)
 
 *How to access this feature*: 
 
-1) Users can click on *My Products* in the header of all pages.
-
-2) Users can click on *Wish List* in the sidebar of *My Products*
+Users can click on *My Products* in the header of all pages, then on *Wish List* in the sidebar of *My Products*.
 
 *Functions*:
 
@@ -377,17 +369,18 @@ For example, if a user indicates a product to be used 3 times a week with specif
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
 #### **2.2.9 Edit Product**
-This feature allows user to edit the product information in their *My Products* page.
+
+This feature allows users to edit the product information in their *My Products* page.
 
 ![Edit](https://i.imgur.com/l69sRYa.png)
 
 *How to access this feature*:
 
-Click on the edit button besides any product on any one of the *My Product* pages.
+Click on the *Edit* button beside any product on any one of the *My Product* pages.
 
 *Function*:
 
-* **Editing a product to place it into *Shelved***
+* **Edit a product to place it into *Shelved***
 
 Users can indicate the My Products Category as *Shelved*  to move the product into *Shelved*. (see below)
 
@@ -395,10 +388,10 @@ If product is already in *Shelved*, the product will remain in this category, bu
 
 ![Edit Shelved](https://i.imgur.com/L5KSIHL.png)
 
-After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
+After clicking the *Edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
 
 
-* **Editing a product to place it into *Wish List***
+* **Edit a product to place it into *Wish List***
 
 Users can indicate the My Products Category as *Wish List* to move the product into *Wish List*. (see below)
 
@@ -407,10 +400,10 @@ If product is already in *Wish List*, the product will remain in this category, 
 ![Edit Wish](https://i.imgur.com/2zrolpm.png)
 
 
-After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on. (see below)
+After clicking the *Edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on. (see below)
 
 
-* **Editing a product to place it into Currently Using**
+* **Edit a product to place it into *Currently Using***
 
 Users will then be required to fill up additional details for usage of the product, namely its expiry date, frequency of usage, and which beauty routine it should be in.
 
@@ -424,7 +417,7 @@ If the user wishes to use the product a certain number of times a week / month b
 
 If product is already in the *Currently Using*, the product will remain in this category, but the relevant information will be updated.
 
-After clicking the *edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
+After clicking the *Edit* button at the bottom of the page, users will be redirected back to the *My Products* page they were previously on.
 
 Note:
 * To edit a previously added product to *Wish List* or *Shelved*, users only need to fill up the My Products Category option. All other inputs filled up by the user will be ignored.
@@ -534,7 +527,7 @@ Navigate back to the feature list: [2.3 Private Features : Social](#23-private-f
 
 #### **2.3.3 Forum Thread**
 
-This feature allows user to interact with other members of the community, facilitating the discussion of beauty issues.
+This feature allows users to interact with other members of the community, facilitating the discussion of beauty issues.
 
 *How to access this feature*: 
 
@@ -551,8 +544,8 @@ If user chose ‘Titles’, all threads whose title contains the keyword(s) ente
 
 If user chose ‘Descriptions’, all threads whose description contains the keyword(s) entered into the search bar will be displayed. 
 
-* **Add Threads ((refer to 2.3.4 Add Thread for more details)**
-Users can click on the *Plus* button, which will direct them *Add Thread*, where they will be able to create their own forum posts. (see below)
+* **Add Threads (refer to 2.3.4 Add Thread for more details)**
+Users can click on the *+* button, which will direct them *Add Thread*, where they will be able to create their own forum posts. (see below)
 
 ![Add Thread](https://i.imgur.com/snHXvcG.png)
 
