@@ -64,8 +64,24 @@
         <div class="dashboardcol rightcol">
             <h3>Notifications</h3>
 
-            <p>Notifications feature coming soon!</p>
+            <div class="notifcontainer">
+            {% if notifications %}
+                {% for notification in notifications %}
+                <a class="roundedbox notification" href="{{ url_for('reply', thread_ID = notification['thread_ID']) }}">
+                    <span class="pink">{{ notification['reply_username'] }}</span><span> replied to your </span><span class="pink">{{ notification['thread_title'] }}</span><span> thread</span>
+                    <p class="replycontent">{{ notification['reply_content'] }}</p>
+                    <p class="timeago">{{ notification['time_ago'] }}</p>
+                </a>
+                {% endfor %}  
+
+            {% else %}
+            <p>No new notifications from the past 14 days!</p>
+            <p>Browse our <a href="{{ url_for('forum') }}"><strong class="pink">Forum</strong></a> to discuss beauty issues with other users.</p>
+            
+            {% endif %}  
+            </div>  
         </div>
+    
     </div>
 
 </body>

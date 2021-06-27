@@ -620,9 +620,46 @@ def dashboard():
                 day_of_month = str(date.today().day)
                 if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
                     night_routine.append(product)
+        
+        # Find notifications (forum replies to threads created by user, in the past 14 days)
+        time_now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cursor = mysql.connection.cursor()
+        cursor.execute('''SELECT t.thread_ID, t.title AS thread_title, r.username AS reply_username, 
+                            r.text_content AS reply_content, 
+                            TIMESTAMPDIFF(DAY, r.post_date, %s) AS days_ago,
+                            TIMESTAMPDIFF(HOUR, r.post_date, %s) AS hours_ago,
+                            TIMESTAMPDIFF(MINUTE, r.post_date, %s) AS minutes_ago,
+                            TIMESTAMPDIFF(SECOND, r.post_date, %s) AS seconds_ago
+                            FROM `Forum Thread` t, `Forum Reply` r
+                            WHERE t.thread_ID = r.thread_ID 
+                                AND t.username = %s
+                                AND r.username != %s
+                                AND CURRENT_DATE() - r.post_date <= 14
+                            ORDER BY r.post_date DESC;''', (time_now, time_now, time_now, time_now, session['username'], session['username'],))
+        notifications_tuple = cursor.fetchall()
+        notifications = []
+        
+        # Compute time_ago_string for each notification
+        for notification in notifications_tuple:
+            
+            # Compute specific time_ago_string
+            if notification['days_ago'] > 0:
+                time_ago_string = str(notification['days_ago']) + " days ago"
+            elif notification['hours_ago'] > 0:
+                time_ago_string = str(notification['hours_ago']) + " hours ago"
+            elif notification['minutes_ago'] > 0:
+                time_ago_string = str(notification['minutes_ago']) + " minutes ago"
+            else: # notification posted less than a minute ago 
+                time_ago_string = str(notification['seconds_ago']) + " seconds ago"
 
+            # Remove TIMESTAMPDIFF keys from each notifications row and append the specific time_ago_string to be displayed
+            timestampdiff_list = ['days_ago', 'hours_ago', 'minutes_ago', 'seconds_ago']
+            [notification.pop(key) for key in timestampdiff_list]
+            notification['time_ago'] = time_ago_string
+            notifications.append(notification)
+        
         return render_template('dashboard.html', username=session['username'], expiring_products=expiring_products, 
-            day_routine=day_routine, night_routine=night_routine, date=date.today())
+            day_routine=day_routine, night_routine=night_routine, date=date.today(), notifications=notifications)
     else:
         return "Error: You are not logged in. Please log in to view this page."
 

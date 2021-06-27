@@ -7,6 +7,10 @@ p {
     margin: 10px;
 }
 
+a {
+    text-decoration: none;
+}
+
 .hello {
     text-align: left;
     background-image: linear-gradient(#F59193, #f5bbbc);
@@ -56,6 +60,50 @@ h4 {
     border-radius: 20px;
     box-shadow: 2px 2px 4px #0000003d;
     text-align: left;
+}
+
+.notification {
+    display: block;
+    text-decoration: none;
+    color: black;
+    width: 88%;
+    max-height: 20%;
+    margin-bottom: 1em;
+    padding-left: 20px;
+    /* padding-right: 20px; */
+}
+
+.pink {
+    color: #d64161;
+}
+
+.notifcation span {
+    font-size: 15px;
+}
+
+.notification .replycontent {
+    font-size: 12px;
+    margin-left: 1em;
+    margin-right: 0px;
+    color: gray;
+    max-height: 2.8em;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    word-wrap: break-word;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+}
+
+.notification .timeago {
+    font-size: 10px;
+    margin: 0px;
+}
+
+.notifcontainer {
+    display: block;
+    overflow-y: auto;
+    max-height: 450px;
 }
 
 .remindercontainer {
