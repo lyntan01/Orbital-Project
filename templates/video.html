@@ -21,12 +21,16 @@
     </header>
 
     <div class="heading">
-        <h3>Introductory Video</h3>
+        <h3>Video Demonstration</h3>
+    </div>
+
+    <div class="userguidecontainer">
+        <a href="{{ url_for('static', filename='README.pdf')}}" class="btn userguide" download>Download User Guide</a>
     </div>
 
     <div class="video">
         <video width="70%" autoplay controls>
-            <source src="{{ url_for('static', filename='pitch.mp4')}}" type="video/mp4">
+            <source src="{{ url_for('static', filename='videodemo.mp4')}}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     
