@@ -1,0 +1,168 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Geneva', Tahoma, Helvetica, Verdana, Arial, sans-serif;
+}
+
+div {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+/* .logout {
+    text-align: center;
+    display: block;
+    margin: 30px 0px;
+} */
+
+.logoutbutton:hover {
+    background-color: #F59193;
+    color: white;
+  }
+
+.logoutbutton {
+    -webkit-appearance: button-bevel;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: lightgray;
+    color: black;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+h1, h2, p {
+    margin: 20px;
+}
+
+table {
+    margin-left: 30px;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+}
+
+.table1 th {
+    text-align: right;
+    padding: 1em;
+}
+
+.table1 tr:hover {
+    background-color: #F59193;
+}
+
+td {
+    text-align: left;
+    padding: 1em;
+}
+
+.review, .searchResults {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table2 th {
+    text-align: center;
+    padding: 1em;
+    background-color: #877FA8;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.table2 tbody tr:nth-child(even) {
+    background-color: #bfb9d4;
+}
+
+.table2 tbody tr:hover {
+    background-color: #F59193;
+}
+
+.searchbar:hover {
+    cursor: text;
+}
+
+#search_term {
+    width: 50%;
+    height: 2em;
+    border-radius: 20px;
+    background-color: rgb(231, 231, 231);
+    border: 1px solid gray;
+    padding: 0.5em 1em;
+}
+
+#search_term::placeholder {
+    color: darkgray;
+    font-size: larger;
+}
+
+.noproduct a {
+    text-decoration: underline;
+    color: #d47e97;
+    display: inline-block;
+}
+
+#addlink, #reviewlink {
+    text-align: center;
+    font-size: x-small;
+    /* padding: 0.5em; */
+    /* color: #d47e97; */
+    color: black;
+}
+
+.leaderboardForm {
+    text-align: center;
+}
+
+.leaderboardbutton {
+    display: inline-block;
+}
+
+.chosen {
+    background-color: #F59193;
+    color: white;
+}
+
+.leaderboard tbody tr:first-child {
+    border: 5px gold double;
+    color: goldenrod;
+}
+
+.leaderboard tbody tr:nth-child(2) {
+    border: 5px silver double;
+    color: darkgray;
+    background: white;
+}
+
+.leaderboard tbody tr:nth-child(3) {
+    border: 5px darkgoldenrod double;
+    color: darkgoldenrod;
+}
+
+.leaderboard tbody tr:first-child:hover, .leaderboard tbody tr:nth-child(2):hover, .leaderboard tbody tr:nth-child(3):hover {
+    background-color: #F59193;
+    color: white;
+}
+
+.addForm {
+    margin-left: 10%;
+    margin-bottom: 30px;
+}
+
+.addForm label {
+    margin-top: 20px;
+}
+
+
+

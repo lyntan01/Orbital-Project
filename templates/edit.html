@@ -21,16 +21,14 @@
 
 
         <p>My Products Category:</p>
-        <input type="radio" name="my_products_cat" id="shelve" value="Shelve">
+        <input type="radio" name="my_products_cat" id="shelve" value="Shelve" onclick= "hideField()">
         <label for="shelve">Shelve</label><br>
-        <input type="radio" name="my_products_cat" id="using" value="Using">
+        <input type="radio" name="my_products_cat" id="using" value="Using" onclick= "showField()">
         <label for="using">Currently Using</label><br>
-        <input type="radio" name="my_products_cat" id="wish" value="Wish">
+        <input type="radio" name="my_products_cat" id="wish" value="Wish" onclick= "hideField()">
         <label for="wish">Wishlist</label><br><br>
 
-        <label for="Segment" style="font-weight: bold;">The below section is applicable only if your product will be under "Currently Using" after you have completed your edit.</label>
-        <br>
-        <br>
+        <div class = "comment-area" id = "comment-area" style = "display: none;">
 
         <label for="expiry_date">Expiry Date:</label><br>
         <input type="date" name="expiry_date" id="expiry_date"  value="{{date}}"><br><br>
@@ -70,6 +68,7 @@
 
         <br>
         <br>
+        </div>
     </form>
     <div class="msg">{{ msg }}</div>
     <br>
@@ -77,5 +76,6 @@
     <br>
 </div>
 
+<script src="{{ url_for('static', filename='js/Main.js') }}"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@
 
                 <div class="divider"></div>
 
-                <button><a href="/addThread" class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></a></button>
+                <button><a href="/addThread" class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"> <b>Add Thread</b></i></a></button>
         
             </div>
             <!--Display-->
@@ -63,9 +63,11 @@
                     <div class = "subforum-icon subforum-column center">
                         <i class="fa fa-heart-o"></i>
                     </div>
+
                     <div class = "subforum-description subforum-column">
                         <p>{{post.description}}</p>
                     </div>
+
                     <div class = "subforum-stats subforum-column center">
                         <span>{{numReplies[loop.index - 1].count}} Replies</span>
                     </div>
