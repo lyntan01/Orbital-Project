@@ -7,7 +7,14 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/myProducts.css') }}">
 </head>
 <body>
-    <h1 style="margin-left: 250px;">Day Routine</h1><br>
+  
+  <div style="margin-left: 250px;">
+    <h1 style="margin-bottom: 10px;">Day Routine</h1>
+    <em><h5 class="pink">View all products in your daytime beauty routine.</h5></em>
+    <br>
+  </div>
+
+    {% if day_products %}
      <div class= 'tableroutine1' style="text-align: center; width: 100%; position: relative;">
       <table id="routine1" class="table table-striped table-bordered" style="text-align: center; width: 80%; margin: 0;">
         <thead>
@@ -36,23 +43,30 @@
           </tr>
         </thead>
         <tbody>
-          {% for product in products %}
-          {% if product.routine_category == 'Day' or product.routine_category =='Both'%}
-          <tr>
-            <td>{{product.brand}}</td>
-            <td>{{product.skincare_or_makeup}}</td>
-            <td>{{product.product_name}}</td>
-            <td>{{product.expiry_date}}</td>
-            <td>{{product.frequency_type}}</td>
-            <td>{{product.frequency}}</td>
-            <td>{{product.specific_days}}</td>
-          </tr>
-
-          {% endif %}
+          {% for product in day_products %}
+            <tr>
+              <td>{{product.brand}}</td>
+              <td>{{product.skincare_or_makeup}}</td>
+              <td>{{product.product_name}}</td>
+              <td>{{product.expiry_date}}</td>
+              <td>{{product.frequency_type}}</td>
+              <td>{{product.frequency}}</td>
+              <td>{{product.specific_days}}</td>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+    {% else %}
+      <div style="margin: 30px 125px 0px 275px; text-align: center;">
+        <p>You do not have any products in your Day Routine right now!</p>
+        <br>
+        <p>
+          <a href="{{ url_for('search') }}"><strong class="pink">Search</strong></a> for a product to add to 
+          <a href="{{ url_for('using') }}"><strong class="pink">Currently Using</strong></a> to add a product to your Day Routine. 
+        </p>
+      </div>
+    {% endif %}
 
     <br>
     <br>
@@ -61,7 +75,13 @@
     <br>
     <br>
 
-    <h1 style="margin-left: 250px;">Night Routine</h1><br>
+    <div style="margin-left: 250px;">
+      <h1 style="margin-bottom: 10px;">Night Routine</h1>
+      <em><h5 class="pink">View all products in your nighttime beauty routine.</h5></em>
+      <br>
+    </div>
+
+    {% if night_products %}
     <div class= 'tableroutine2' style="text-align: center; width: 100%; position: relative;">
       <table id="routine2" class="table table-striped table-bordered" style="text-align: center; width: 80%; margin: 0;">
         <thead>
@@ -90,22 +110,31 @@
           </tr>
         </thead>
         <tbody>
-          {% for product in products %}
-          {% if product.routine_category == 'Night' or product.routine_category == 'Both' %}
-          <tr>
-            <td>{{product.brand}}</td>
-            <td>{{product.skincare_or_makeup}}</td>
-            <td>{{product.product_name}}</td>
-            <td>{{product.expiry_date}}</td>
-            <td>{{product.frequency_type}}</td>
-            <td>{{product.frequency}}</td>
-            <td>{{product.specific_days}}</td>
-          </tr>
-          {% endif %}
+          {% for product in night_products %}
+            <tr>
+              <td>{{product.brand}}</td>
+              <td>{{product.skincare_or_makeup}}</td>
+              <td>{{product.product_name}}</td>
+              <td>{{product.expiry_date}}</td>
+              <td>{{product.frequency_type}}</td>
+              <td>{{product.frequency}}</td>
+              <td>{{product.specific_days}}</td>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+    {% else %}
+      <div style="margin: 30px 125px 50px 275px; text-align: center;">
+        <p>You do not have any products in your Night Routine right now!</p>
+        <br>
+        <p>
+          <a href="{{ url_for('search') }}"><strong class="pink">Search</strong></a> for a product to add to 
+          <a href="{{ url_for('using') }}"><strong class="pink">Currently Using</strong></a> to add a product to your Night Routine. 
+        </p>
+      </div>
+    {% endif %}
+
 </body>
 </html>
 
