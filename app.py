@@ -13,7 +13,7 @@ app.secret_key = 'benefit'
 #app.config['MYSQL_HOST'] = 'localhost'
 #app.config['MYSQL_USER'] = 'root'
 #app.config['MYSQL_PASSWORD'] = 'T0107553a'
-#app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # database connection details (heroku)
 app.config['MYSQL_DB'] = 'heroku_6a15b81e32c4217'
