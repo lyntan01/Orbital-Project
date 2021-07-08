@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name = "viewport" content="width=device-width, initial-scale = 1.0">
+        <title>Forum</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel = "stylesheet" href="{{ url_for('static', filename='css/forumStyle.css') }}">
+        <script src="main.js"></script>
+    </head>
+    <body>
+
+        <header>
+            <div class = "main">
+                <div class="logo">
+                    <a href ="{{ url_for('dashboard') }}"> <img src = "{{ url_for('static', filename='logo.png') }}"></a>
+                </div>
+                <ul>
+                    <li><a href="{{ url_for('routine') }}">My Products</a></li>
+                    <li><a href="{{ url_for('search') }}">Search Products</a></li>
+                    <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+                    <li><a href="{{ url_for('forum') }}">Forum</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                </ul>
+            </div>
+            
+        </header>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class = "flashes" style="margin-top: 70px; margin-left: 500px; padding: 0%; margin-bottom: 0px;">
+            {{ messages[0] }} 
+        </div>
+        {% endif %}
+        {% endwith %}
+
+
+        <div class="container">
+
+            <!--Search Box-->
+            <div class="search-box"> 
+                <form action = "{{ url_for('forum', posts=posts, username=username, countThreads = countThreads, countUsers = countUsers, numReplies = numReplies) }}" method = "post">
+                    <select name="filter" id="filter">
+                        <option value="Titles">Titles</option>
+                        <option value="Descriptions">Descriptions</option>
+                    </select>
+                    <input type="text" name="search_term" placeholder="search ...">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+
+                <div class="divider"></div>
+
+                <button><a href="/addThread" class="btn btn-secondary btn-sm"><i class="fa fa-plus" aria-hidden="true"> <b>Add Thread</b></i></a></button>
+        
+            </div>
+            <!--Display-->
+            {% for post in posts %}
+            <div class="subforum">
+                <div class="subforum-title">
+                    <h1><a href = "/reply/{{post.thread_ID}}">{{post.title}}</a></h1>
+                </div>
+                <div class = "subforum-row">
+                    <div class = "subforum-icon subforum-column center">
+                        <i class="fa fa-heart-o"></i>
+                    </div>
+
+                    <div class = "subforum-description subforum-column">
+                        <p>{{post.description}}</p>
+                    </div>
+
+                    <div class = "subforum-stats subforum-column center">
+                        <span>{{numReplies[loop.index - 1].count}} Replies</span>
+                    </div>
+                    <div class = "subforum-info subforum-column" >
+                        <b><a href="/{{post.username}}/profile">Created</a></b> by <a href="/{{post.username}}/profile">{{post.username}}</a>
+                        <br>
+                        on <small>{{post.post_date}}</small><br><br>
+                        {% if post.username == username or session['Admin'] == True%}
+                        <a href="/deleteThread/{{post.thread_ID}}" class="btn btn-secondary btn-sm"><u>Delete</u></a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!--Forum info-->
+        <div class = "forum-info">
+            <div class="chart">
+                Forum - Stats &nbsp;<i class = "fa fa-bar-chart"></i>
+            </div>
+            <div>
+               <span><b>{{countThreads.Count}}</b> Threads by <b>{{countUsers.Count}} </b>Users</span><br>
+            </div>
+        </div>
+        <br>
+        <br>
+    </body>
+</html>

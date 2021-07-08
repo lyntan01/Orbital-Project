@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sidebar.css') }}">
+</head>
+<body>
+    <div class = "wrapper">
+        <div class="sidebar">
+            <div class="logo2">
+                <a href="{{ url_for('dashboard') }}"> <img src = "{{ url_for('static', filename='logo.png') }}"></a>
+            </div>
+
+            <h2>My Products</h2>
+            <ul class = "tabs">
+                <li><a href="{{ url_for('routine') }}">My Beauty Routine</a></li>
+                <li><a href="{{ url_for('shelve') }}">Shelved</a></li>
+                <li><a href="{{ url_for('using') }}">Currently Using</a></li>
+                <li><a href="{{ url_for('wishlist') }}">Wish List</a></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

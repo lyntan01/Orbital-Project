@@ -1,0 +1,83 @@
+{% include 'sidebar.html' %}{% include 'headerforsidebar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/myProducts.css') }}">
+    <title>Edit</title>
+</head>
+<body>
+    <div class="editForm">
+
+    <h2 style="text-align: center;">Edit</h2>
+    <p style="text-align: center;">{{ product_name }}</p>
+
+    <br>
+
+    <form action = "{{ url_for('edit', product_name=product_name, prev_page=prev_page, msg=msg, date=date) }}" method = "post">
+
+
+        <p>My Products Category:</p>
+        <input type="radio" name="my_products_cat" id="shelve" value="Shelve" onclick= "hideField()">
+        <label for="shelve">Shelve</label><br>
+        <input type="radio" name="my_products_cat" id="using" value="Using" onclick= "showField()">
+        <label for="using">Currently Using</label><br>
+        <input type="radio" name="my_products_cat" id="wish" value="Wish" onclick= "hideField()">
+        <label for="wish">Wishlist</label><br><br>
+
+        <div class = "comment-area" id = "comment-area" style = "display: none;">
+
+        <label for="expiry_date">Expiry Date:</label><br>
+        <input type="date" name="expiry_date" id="expiry_date"  value="{{date}}"><br><br>
+
+        <p>Frequency of Usage:</p>
+        <input type="radio" name="frequency_type" id="daily" value="Daily">
+        <label for="daily">Daily</label><br>
+        <input type="radio" name="frequency_type" id="weekly" value="Weekly">
+        <label for="weekly">Weekly</label><br>
+        <input type="radio" name="frequency_type" id="monthly" value="Monthly">
+        <label for="monthly">Monthly</label><br><br>
+
+        <label for="frequency">How many times to use in a week/month (Optional):</label><br>
+        <p style="font-size: 0.8em;">Please input a number that is no higher than 6 for Weekly and 30 for Montly.</p>
+        <input type="number" name="frequency" id="frequency" min="1" max="30" value="1"><br><br>
+
+        <label for="specific_days">Specific days to use product (Optional):</label><br>
+        <p style="font-size: 0.8em;">
+            If you wish to specify the days of the week/month to use the product, please input the specific days separated by a comma (no spaces).<br>
+            For instance, input "1,3,5" to use the product every Monday, Wednesday and Friday (for Weekly),<br>
+            or input "1,6,11,16,21,26" to use the product on those days of every month (for Monthly).
+        </p>
+        <input type="text" name="specific_days" id="specific_days" value="0">
+        
+        <br>
+        <br>
+
+        <p>Routine Category:</p>
+        <input type="radio" name="routine_category" id="day" value="Day">
+        <label for="day">Day Routine</label><br>
+        <input type="radio" name="routine_category" id="night" value="Night">
+        <label for="night">Night Routine</label><br>
+        <input type="radio" name="routine_category" id="both" value="Both">
+        <label for="both">Both</label><br><br>
+
+        </div>
+        
+        <input type="submit" value="Edit">
+
+        <br>
+        <br>
+
+    </form>
+    <div class="msg">{{ msg }}</div>
+    <br>
+    <br>
+    <br>
+</div>
+
+<script src="{{ url_for('static', filename='js/Main.js') }}"></script>
+</body>
+</html>

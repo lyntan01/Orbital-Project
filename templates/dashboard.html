@@ -1,0 +1,95 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" async></script>
+    <title>Dashboard</title>
+</head>
+<body>
+    {% if session['Admin'] == True%}
+    <div class="admin">
+        <h1>Admin users do not have access to the dashboard!</h1>
+    </div>
+    {% endif %}
+
+    {% if session['Admin'] == False%}
+    <div class="hello">
+        <h1>Hello, {{ username }}!</h1>
+    </div>
+
+    <div class="dashboardcontent">
+        <div class="dashboardcol leftcol">
+            <h3>Expiry Date Reminders</h3>
+
+            <div class="remindercontainer">
+                {% if expiring_products %}
+                    {% for product in expiring_products %}
+                    <div class="roundedbox reminder">
+                        <span class="number">{{ product["num_days_left"] }} </span><span class="days">days</span>
+                        <p>{{ product["brand"] }} {{ product["product_name"] }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <br><h4>You have no products expiring in the next 30 days!</h4>
+                {% endif %}
+            </div>
+
+            <h3>Beauty Routine</h3>
+            <p id="todaysdate">{{ date.strftime("%A, %d %B") }}</p>
+
+            <div class="roundedbox dayroutine">
+                <h4>Day Routine</h4>
+
+                {% for product in day_routine %}
+                    <div class="checklist">
+                        <input type="checkbox" id="{{ product['product_name'] }} Day" name="day_product" value="{{ product['product_name'] }}" class="checkbox-round"> 
+                        <label for="{{ product['product_name'] }} Day">{{ product['brand'] }} {{ product['product_name'] }}</label><br>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="roundedbox nightroutine">
+                <h4>Night Routine</h4>
+
+                {% for product in night_routine %}
+                    <div class="checklist">
+                        <input type="checkbox" id="{{ product['product_name'] }} Night" name="night_product" value="{{ product['product_name'] }}" class="checkbox-round"> 
+                        <label for="{{ product['product_name'] }} Night">{{ product['brand'] }} {{ product['product_name'] }}</label><br>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="dashboardcol rightcol">
+            <h3>Notifications</h3>
+
+            <div class="notifcontainer">
+            {% if notifications %}
+                {% for notification in notifications %}
+                <a class="roundedbox notification" href="{{ url_for('reply', thread_ID = notification['thread_ID']) }}">
+                    <span class="pink">{{ notification['reply_username'] }}</span><span> replied to your </span><span class="pink">{{ notification['thread_title'] }}</span><span> thread</span>
+                    <p class="replycontent">{{ notification['reply_content'] }}</p>
+                    <p class="timeago">{{ notification['time_ago'] }}</p>
+                </a>
+                {% endfor %}  
+
+            {% else %}
+            <p>No new notifications from the past 14 days!</p>
+            <p>Browse our <a href="{{ url_for('forum') }}"><strong class="pink">Forum</strong></a> to discuss beauty issues with other users.</p>
+            
+            {% endif %}  
+            </div>  
+        </div>
+    
+    </div>
+    {% endif %}
+
+</body>
+</html>

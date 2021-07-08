@@ -1,0 +1,71 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
+    <title>Leaderboard</title>
+</head>
+<body>
+
+    <h1 style="text-align: center;">Leaderboard</h1>
+
+    <!-- User has not chosen a leaderboard to display yet -->
+    {% if not type %}
+    <form class="leaderboardForm" action="{{ url_for('leaderboard') }}" method="post">
+        <input type="submit" class="logoutbutton leaderboardbutton" name="skincare_or_makeup" value="Skincare">
+        <input type="submit" class="logoutbutton leaderboardbutton" name="skincare_or_makeup" value="Makeup">
+    </form>
+
+    <!-- User has chosen the Skincare leaderboard -->
+    {% elif type == "Skincare" %}
+    <form class="leaderboardForm" action="{{ url_for('leaderboard') }}" method="post">
+        <input type="submit" class="logoutbutton leaderboardbutton chosen" name="skincare_or_makeup" value="Skincare">
+        <input type="submit" class="logoutbutton leaderboardbutton" name="skincare_or_makeup" value="Makeup">
+    </form>
+
+    <!-- User has chosen the Makeup leaderboard -->
+    {% else %}
+    <form class="leaderboardForm" action="{{ url_for('leaderboard') }}" method="post">
+        <input type="submit" class="logoutbutton leaderboardbutton" name="skincare_or_makeup" value="Skincare">
+        <input type="submit" class="logoutbutton leaderboardbutton chosen" name="skincare_or_makeup" value="Makeup">
+    </form>
+   
+    {% endif %}
+
+    <br><br>
+
+    {% if type and products|length < 1 %}
+    <div class="noproduct" style="margin-top: 30px;">
+        <p style="text-align: center; margin: 0px;">There are no products in our database right now.</p>
+        <a href="{{ url_for('create') }}" style="text-align: center;">Click here to add a product.</a>
+    </div>  
+
+    {% elif type %}
+    <table class="searchResults table2 leaderboard" style="width: 90%;">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Product Name</th>
+                <th>Brand</th>
+                <th>Average Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td style="text-align: center;">{{ products.index(product) + 1 }}</td>
+                <td>{{ product["product_name"] }}</td>
+                <td>{{ product["brand"] }}</td>
+                <td style="text-align: center;">{{ product["average_rating"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+</body>
+</html>
