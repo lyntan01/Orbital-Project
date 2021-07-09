@@ -9,6 +9,13 @@
 </head>
 <body>
 
+{% if session['Admin'] == True%}
+  <div class="admin">
+      <h1>Admin users do not have access to Shelved!</h1>
+  </div>
+{% endif %}
+
+{% if session['Admin'] == False%}
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   <ul class = "flashes">
@@ -63,18 +70,17 @@
         </tbody>
       </table>
     </div>
-  
-  {% else %} 
-  <div style="margin: 30px 125px 0px 275px; text-align: center;">
-    <p>You do not have any products in your Shelved right now!</p>
-    <br>
-    <p>
-      <a href="{{ url_for('search') }}"><strong class="pink">Search</strong></a> for a product to add to Shelved, 
-      or shift a product you are <a href="{{ url_for('using') }}"><strong class="pink">Currently Using</strong></a> to Shelved if you no longer want to use it. 
-    </p>
-  </div>
-  {% endif %}
-
+    {% else %} 
+    <div style="margin: 30px 125px 0px 275px; text-align: center;">
+      <p>You do not have any products in your Shelved right now!</p>
+      <br>
+      <p>
+        <a href="{{ url_for('search') }}"><strong class="pink">Search</strong></a> for a product to add to Shelved, 
+        or shift a product you are <a href="{{ url_for('using') }}"><strong class="pink">Currently Using</strong></a> to Shelved if you no longer want to use it. 
+      </p>
+    </div>
+    {% endif %}
+{% endif %}
 </body>
 </html>
 

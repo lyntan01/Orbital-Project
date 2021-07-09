@@ -7,6 +7,14 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/myProducts.css') }}">
 </head>
 <body>
+
+{% if session['Admin'] == True%}
+  <div class="admin">
+      <h1>Admin users do not have access to Wish List!</h1>
+  </div>
+{% endif %}
+
+{% if session['Admin'] == False%}
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   <ul class = "flashes">
@@ -71,6 +79,7 @@
     </div>
     {% endif %}
 
+  {% endif %}
 </body>
 </html>
 

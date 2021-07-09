@@ -11,7 +11,7 @@ app.secret_key = 'benefit'
 # database connection details (local)
 #app.config['MYSQL_DB'] = 'The Curious Case Of Cosmetics'
 #app.config['MYSQL_HOST'] = 'localhost'
-#app.config['MYSQL_USER'] = 'root'
+##app.config['MYSQL_USER'] = 'root'
 #app.config['MYSQL_PASSWORD'] = 'T0107553a'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -48,16 +48,29 @@ def login():
         pw = request.form['password']
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM `Member User` WHERE username = %s AND password = %s', (username, pw,))
-        account = cursor.fetchone()
-        if account:
-            session['loggedin'] = True
-            session['username'] = account['username']
-            return redirect(url_for('dashboard'))
-    
+        if username[:5] != "Admin":
+            cursor.execute(
+                'SELECT * FROM `Member User` WHERE username = %s AND password = %s', (username, pw,))
+            account = cursor.fetchone()
+            if account:
+                session['loggedin'] = True
+                session['Admin'] = False
+                session['username'] = account['username']
+                return redirect(url_for('dashboard'))
+            else:
+                msg = 'Incorrect username/password! Try again!'
         else:
-            msg = 'Incorrect username/password! Try again!'
+            cursor.execute(
+                'SELECT * FROM `Admin User` WHERE admin_username = %s AND password = %s', (username, pw,))
+            account = cursor.fetchone()
+            if account:
+                session['loggedin'] = True
+                session['Admin'] = True
+                session['username'] = account['admin_username']
+                return redirect(url_for('profile'))
+            else:
+                msg = 'Incorrect username/password! Try again!'
+    
     return render_template('login.html', msg=msg)
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -84,18 +97,36 @@ def signup():
             msg = 'Account already exists!'
         elif usercheck:
             msg = 'Username already exists!'
-        elif len(gender) != 1:
+        elif not(gender == "F" or gender == "M"):
             msg = 'Gender must be F or M!'
         else:
-            # Account doesnt exists and the form data is valid, now insert new account into member user table
-            cursor.execute(
-                'INSERT INTO `Member User` VALUES (%s, %s, %s, %s, %s, %s )', (username, firstname, lastname, gender, password, email,))
-            mysql.connection.commit()
-            msg = 'You have successfully registered!'
-            return render_template('login.html', msg=msg)
+            if username[:5] != "Admin":
+                cursor.execute(
+                    'INSERT INTO `Member User` VALUES (%s, %s, %s, %s, %s, %s )', (username, firstname, lastname, gender, password, email,))
+                mysql.connection.commit()
+                msg = 'You have successfully registered!'
+                return render_template('login.html', msg=msg)
+            else:
+                return render_template('adminpin.html', msg=msg, username=username, email=email, firstname=firstname, lastname=lastname, gender=gender, password=password)
 
     # Show registration form with message (if any)
     return render_template('signup.html', msg=msg)
+
+@app.route('/adminpin/<string:username>/<string:email>/<string:firstname>/<string:lastname>/<string:gender>/<string:password>', methods=['GET', 'POST'])
+def adminpin(username, email, firstname, lastname, gender, password):
+    msg = ''
+    if request.method == 'POST':
+        pin = request.form['pin']
+        if pin == "1234":
+            msg = "Registration successful!"
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('INSERT INTO `Admin User` VALUES (%s, %s, %s, %s, %s, %s )', (username, firstname, lastname, gender, password, email,))
+            mysql.connection.commit()
+            return render_template('login.html', msg=msg)
+        else:
+            msg = "Incorrect Pin!"
+            return render_template('adminpin.html', msg=msg, username=username, email=email, firstname=firstname, lastname=lastname, gender=gender, password=password)
+        
 
 @app.route('/shelve', methods=['GET', 'POST'])
 def shelve():
@@ -162,6 +193,19 @@ def routine():
         return render_template('routine.html', day_products=day_products, night_products=night_products)
     else:
         return "Error: You are not logged in. Please log in to view this page."
+
+@app.route('/deleteProduct/<string:product_name>', methods=['GET', 'POST'] )
+def deleteProduct(product_name):
+    if 'loggedin' in session:
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'DELETE FROM `Product` WHERE product_name = %s', (product_name,))
+        mysql.connection.commit()
+        flash("Item Deleted!")
+        return redirect(url_for('search'))
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
 
 @app.route('/deleteShelve/<string:product_name>', methods=['GET', 'POST'] )
 def delete(product_name):
@@ -274,24 +318,34 @@ def profile(username=None):
         # Display the user's own profile if no username specified
         if username == None:
             username = session['username']
-
-        if request.method == 'GET':
-            cursor = mysql.connection.cursor()
-            cursor.execute(
-                    'SELECT * FROM `Member User` WHERE username = %s', (username,))
-            # Store user's information into a dictionary
-            userInfo = cursor.fetchone()
-
-            # Check that account exists, now find all reviews made by user
-            if userInfo:
+        
+        if session['Admin'] == False:
+            if request.method == 'GET':
                 cursor = mysql.connection.cursor()
                 cursor.execute(
-                    '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating 
-                    FROM Review r, Product p 
-                    WHERE r.username = %s AND r.product_name = p.product_name 
-                    ORDER BY p.brand, p.skincare_or_makeup, r.rating DESC''', (username,))
-                # Store user's reviews into a dictionary
-                reviews = cursor.fetchall()
+                        'SELECT * FROM `Member User` WHERE username = %s', (username,))
+                # Store user's information into a dictionary
+                userInfo = cursor.fetchone()
+
+                # Check that account exists, now find all reviews made by user
+                if userInfo:
+                    cursor = mysql.connection.cursor()
+                    cursor.execute(
+                        '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating 
+                        FROM Review r, Product p 
+                        WHERE r.username = %s AND r.product_name = p.product_name 
+                        ORDER BY p.brand, p.skincare_or_makeup, r.rating DESC''', (username,))
+                    # Store user's reviews into a dictionary
+                    reviews = cursor.fetchall()
+
+        if session['Admin'] == True:
+            if request.method == 'GET':
+                cursor = mysql.connection.cursor()
+                cursor.execute(
+                        'SELECT * FROM `Admin User` WHERE admin_username = %s', (username,))
+                # Store user's information into a dictionary
+                userInfo = cursor.fetchone()
+                reviews = None
 
         # Show user's profile with user's reviews (if any)
         return render_template('profile.html', username=username, userInfo=userInfo, reviews=reviews)
@@ -841,6 +895,7 @@ def logout():
         # Remove session data, this will log the user out
         session.pop('loggedin', None)
         session.pop('member_id', None)
+        session.pop('admin', None)
         session.pop('name', None)
         # Redirect to login page
         return redirect(url_for('index'))

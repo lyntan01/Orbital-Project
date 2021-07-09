@@ -18,6 +18,10 @@ a{
     text-decoration: none;
 }
 
+a:hover{
+    text-decoration: underline;
+}
+
 h1{
     font-size: 16px;
     font-weight: bolder;
@@ -34,7 +38,7 @@ h1{
 }
 
 .subforum-title{
-    background-color: #877FA8 ;
+    background-color: #E1CFF9 ;
     padding: 5px;
     border-radius: 5px;
     margin: 4px;

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Adminpin</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+    </head>
+    <body>
+
+        <form class="box" action="{{ url_for('adminpin',msg=msg, username=username, email=email, firstname=firstname, lastname=lastname, gender=gender, password=password) }}" method="post">
+            <h4 style="color: #b22222;">You are registering as an admin user. Please input the pin.</h4>
+            <input type="text" name="pin" placeholder="Pin" id="pin" required>
+            <input type="submit" name="" value="VERIFY">
+        </form>
+        <div class="msglogin">{{ msg }}</div>
+        <br>
+        <div class="signuplink">
+            <a href="{{ url_for('signup') }}" class="siupli">Not an Admin? Sign up with another username !</a>
+        </div>
+
+    </body>
+</html>

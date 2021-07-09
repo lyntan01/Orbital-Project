@@ -75,7 +75,7 @@
                         <b><a href="/{{post.username}}/profile">Created</a></b> by <a href="/{{post.username}}/profile">{{post.username}}</a>
                         <br>
                         on <small>{{post.post_date}}</small><br><br>
-                        {% if post.username == username %}
+                        {% if post.username == username or session['Admin'] == True%}
                         <a href="/deleteThread/{{post.thread_ID}}" class="btn btn-secondary btn-sm"><u>Delete</u></a>
                         {% endif %}
                         

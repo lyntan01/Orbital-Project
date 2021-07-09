@@ -69,7 +69,7 @@
                         {{post.text_content}}
                     </div>
                     <div class = 'del_button'>
-                        {% if post.username == username %}
+                        {% if post.username == username or session['Admin'] == True %}
                         <a href="/deleteReply/{{post.thread_ID}}/{{post.reply_ID}}" class="btn btn-secondary btn-sm" style="float:right;"><u>Delete</u></a>
                         {% endif %}
                     </div>

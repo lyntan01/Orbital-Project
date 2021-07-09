@@ -12,6 +12,12 @@
 </head>
 <body>
 
+    <div class="admin">
+        <h1>Admin users cannot review products!</h1>
+    </div>
+
+    {% if session['Admin'] == False%}
+
     {% if error_msg %}
     <div class="error">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
@@ -45,6 +51,6 @@
         <input class="submit" type="submit" value="Submit">
         
     </form>
-
+    {% endif %}
 </body>
 </html>

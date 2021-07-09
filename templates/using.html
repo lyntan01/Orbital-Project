@@ -8,6 +8,13 @@
 </head>
 <body>
 
+{% if session['Admin'] == True%}
+  <div class="admin">
+      <h1>Admin users do not have access to Currently Using!</h1>
+  </div>
+{% endif %}
+
+{% if session['Admin'] == False%}
   {% with messages = get_flashed_messages() %}
   {% if messages %}
   <ul class = "flashes">
@@ -73,6 +80,8 @@
       </p>
     </div>
     {% endif %}
+  {% endif %}
+
 </body>
 </html>
 

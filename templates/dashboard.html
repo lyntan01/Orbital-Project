@@ -12,7 +12,13 @@
     <title>Dashboard</title>
 </head>
 <body>
+    {% if session['Admin'] == True%}
+    <div class="admin">
+        <h1>Admin users do not have access to the dashboard!</h1>
+    </div>
+    {% endif %}
 
+    {% if session['Admin'] == False%}
     <div class="hello">
         <h1>Hello, {{ username }}!</h1>
     </div>
@@ -83,6 +89,7 @@
         </div>
     
     </div>
+    {% endif %}
 
 </body>
 </html>

@@ -61,7 +61,12 @@
                 <th>Brand</th>
                 <th>Type</th>
                 <th>Average Rating</th>
+                {% if session['Admin'] == False%}
                 <th style="padding: 1em 0.4em;">Add to<br>My Products</th>
+                {% endif %}
+                {% if session['Admin'] == True%}
+                <th style="padding: 1em 0.4em;">Delete</th>
+                {% endif %}
                 <th></th>
             </tr>
         </thead>
@@ -74,6 +79,7 @@
                 <td style="text-align: center;">{{ product["average_rating"] }}</td>
                 <td width="120" style="text-align: center; padding: 0;">
 
+                    {% if session['Admin'] == False%}
                     <form action = "{{ url_for('add') }}" method = "post">
                         <input type="text" name="product_name" value="{{ product['product_name'] }}" style="display: none;">
                         <select name="shelf" id="addDropdown" style="width: 65%;" required> 
@@ -85,8 +91,14 @@
                         <input type="submit" value="Add" style="font-size: 0.5em;"> <!-- onclick="showAlert('Adding a new product to My Products')" -->
                         <input type="text" name="search_term" value="{{ search_term }}" style="display: none;">
                     </form>
+                    {% endif %}
+                    <a href="/deleteProduct/{{ product['product_name'] }}" class="btn btn-secondary btn-sm">Delete</a>
+                    {% if session['Admin'] == True%}
+
+                    {% endif %}
 
                 </td>
+
                 <td width="80" style="text-align: center; padding: 0;">
                     <a href="{{ url_for('review', product_name=product['product_name']) }}" id="reviewlink">Leave a review</a>
                 </td>

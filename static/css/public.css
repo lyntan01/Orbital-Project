@@ -54,7 +54,7 @@ body{
     border: 2px solid #EE4266;
     padding: 14px 40px;
     outline: none;
-    color: #8e8e8e;
+    color: #505050;;
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
@@ -108,7 +108,7 @@ body{
     font-family: "Times New Roman", Times, serif;
 }
 
-.boxsignup input[type = "text"], .boxsignup input[type = "password"]{
+.boxsignup input[type = "text"], .boxsignup input[type = "password"], .boxsignup input[type = "email"]{
     border: 0;
     background: none;
     display: block;
@@ -150,7 +150,7 @@ body{
     border: 2px solid #EE4266;
     padding: 14px 40px;
     outline: none;
-    color: #8e8e8e;
+    color: #505050;;
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
@@ -184,6 +184,10 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);  
     color: #d64161;
+}
+
+::placeholder{
+    color: 	#505050;
 }
 
 /* index and about*/
