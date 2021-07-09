@@ -7,58 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
-    <title>Search Products</title>
+    <title>{{ brand_name }}</title>
 </head>
 <body>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class = "flashes2">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+    <h3 style="text-align: center;">B R A N D</h3>
+    <h1 style="text-align: center;">{{ brand_name }}</h1>
 
-    {% if error_msg %}
-    <div class="error">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-        </svg>
-        <h3> {{ error_msg }}</h3>
-    </div>
-    {% endif %}
-
-    <h1 style="text-align: center;">Search our database for a product:</h1>
-
-    <form class="searchform" action = "{{ url_for('search') }}" method = "post">
-        <div class="searchbar">
-            <input type="text" name="search_term" placeholder="Type your search here..." id="search_term" required>
-        </div>
-
-        <div class="search" style="margin: 10px;">
-            <input type="submit" name="" value="Search!">
-        </div>
-        <div class="msg">{{ msg }}</div>
-    </form>
-
-    {% if post %}    
+    {% if session['Admin'] == False %}
+    
     {% if products|length < 1 %}
     <div class="noproduct" style="margin-top: 30px;">
-        <p style="text-align: center; margin: 0px;">No such product matched your search.</p>
+        <p style="text-align: center; margin: 0px;">There are no products of {{ brand_name }} in our database yet.</p>
         <a href="{{ url_for('create') }}" style="text-align: center;">Click here to add a product.</a>
     </div>  
 
     {% else %}
-    <h2 style="text-align: center;">Search Results: </h2>
+    <h3 style="text-align: center; margin: 1em 0em;">{{ brand_name }} products in our database: </h3>
 
     <table class="searchResults table2" style="width: 90%;">
         <thead>
             <tr>
                 <th>Product Name</th>
-                <th>Brand</th>
                 <th>Type</th>
                 <th>Average Rating</th>
                 {% if session['Admin'] == False %}
@@ -73,7 +43,6 @@
             {% for product in products %}
             <tr>
                 <td><a href="/product/{{ product['product_name'] }}">{{ product["product_name"] }}</a></td>
-                <td><a href="/brand/{{ product['brand'] }}">{{ product["brand"] }}</a></td>
                 <td>{{ product["skincare_or_makeup"] }}</td>
                 <td style="text-align: center;">{{ product["average_rating"] }}</td>
                 <td width="120" style="text-align: center; padding: 0;">

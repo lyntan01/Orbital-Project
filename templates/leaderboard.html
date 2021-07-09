@@ -59,7 +59,7 @@
             <tr>
                 <td style="text-align: center;">{{ products.index(product) + 1 }}</td>
                 <td><a href="/product/{{ product['product_name'] }}">{{ product["product_name"] }}</a></td>
-                <td>{{ product["brand"] }}</td>
+                <td><a href="/brand/{{ product['brand'] }}">{{ product["brand"] }}</a></td>
                 <td style="text-align: center;">{{ product["average_rating"] }}</td>
             </tr>
             {% endfor %}

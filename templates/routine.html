@@ -52,7 +52,7 @@
         <tbody>
           {% for product in day_products %}
             <tr>
-              <td>{{product.brand}}</td>
+              <td><a href="/brand/{{ product.brand }}">{{ product.brand }}</a></td>
               <td>{{product.skincare_or_makeup}}</td>
               <td><a href="/product/{{ product.product_name }}">{{ product.product_name }}</a></td>
               <td>{{product.expiry_date}}</td>
@@ -119,7 +119,7 @@
         <tbody>
           {% for product in night_products %}
             <tr>
-              <td>{{product.brand}}</td>
+              <td><a href="/brand/{{ product.brand }}">{{ product.brand }}</a></td>
               <td>{{product.skincare_or_makeup}}</td>
               <td><a href="/product/{{ product.product_name }}">{{ product.product_name }}</a></td>
               <td>{{product.expiry_date}}</td>

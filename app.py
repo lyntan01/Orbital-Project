@@ -919,6 +919,24 @@ def product(product_name):
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
+@app.route('/brand/<string:brand_name>', methods=['GET', 'POST'])
+def brand(brand_name):
+    if 'loggedin' in session:
+        if request.method == 'GET':
+                cursor = mysql.connection.cursor()
+                cursor.execute(
+                        '''SELECT product_name, skincare_or_makeup, average_rating 
+                            FROM `Product` 
+                            WHERE brand = %s
+                            ORDER BY skincare_or_makeup, product_name''', (brand_name,))
+                # Store products' information into a dictionary
+                products = cursor.fetchall()
+
+        # Show product's page with all the product information and the reviews on the product
+        return render_template('brand.html', brand_name=brand_name, products=products)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
 @app.route('/logout')
 def logout():
     if 'loggedin' in session:

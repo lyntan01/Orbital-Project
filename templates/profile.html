@@ -53,7 +53,7 @@
             {% for review in reviews %}
             <tr>
                 <td><a href="/product/{{ review['product_name'] }}">{{ review["product_name"] }}</a></td>
-                <td>{{ review["brand"] }}</td>
+                <td><a href="/brand/{{ review['brand'] }}">{{ review["brand"] }}</a></td>
                 <td>{{ review["skincare_or_makeup"] }}</td>
                 <td style="text-align: center;">{{ review["rating"] }}</td>
                 <td>{{ review["text_content"] if review["text_content"] }}</td>

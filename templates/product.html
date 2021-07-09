@@ -11,12 +11,13 @@
 </head>
 <body>
 
+    <h3 style="text-align: center;">P R O D U C T</h3>
     <h1 style="text-align: center;">{{ product["product_name"] }}</h1>
 
     <table class="personalInfo table1">
         <tr>
             <th>Brand: </th>
-            <td>{{ product["brand"] }}</td>
+            <td><a href="/brand/{{ product['brand'] }}">{{ product["brand"] }}</a></td>
         </tr>
         <tr>
             <th>Category: </th>
