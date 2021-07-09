@@ -1,0 +1,87 @@
+{% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profileStyle.css') }}">
+    <title>{{ product["product_name"] }}</title>
+</head>
+<body>
+
+    <h1 style="text-align: center;">{{ product["product_name"] }}</h1>
+
+    <table class="personalInfo table1">
+        <tr>
+            <th>Brand: </th>
+            <td>{{ product["brand"] }}</td>
+        </tr>
+        <tr>
+            <th>Category: </th>
+            <td>{{ product["skincare_or_makeup"] }}</td>
+        </tr>
+        <tr>
+            <th>Average Rating: </th>
+            <td>{{ product["average_rating"] }}</td>
+        </tr>
+        <tr>
+            <th style="vertical-align: top;">Added to My Products? </th>
+            <td>
+                {% if shelf[0] == "Shelved" %}
+                    Yes, in your <strong><a href="{{ url_for('shelve') }}">Shelved</a></strong> products
+                {% elif shelf[0] == "Currently Using" %}
+                    Yes, in your <strong><a href="{{ url_for('using') }}">Currently Using</a></strong> products
+                {% elif shelf[0] == "Wish List" %}
+                    Yes, in your <strong><a href="{{ url_for('wishlist') }}">Wish List</a></strong>
+                {% else %}
+                    No <br>
+                    {% if session['Admin'] == False %}
+                    <form action = "{{ url_for('add') }}" method = "post">
+                        <input type="text" name="product_name" value="{{ product['product_name'] }}" style="display: none;">
+                        <select name="shelf" id="addDropdown" style="width: 65%;" required> 
+                            <option hidden disabled selected value> </option>     
+                            <option>Currently Using</option>     
+                            <option>Shelved</option>     
+                            <option>Wish List</option>     
+                        </select>
+                        <input type="submit" value="Add" style="font-size: 0.5em;"> <!-- onclick="showAlert('Adding a new product to My Products')" -->
+                        <input type="text" name="search_term" value="{{ search_term }}" style="display: none;">
+                    </form>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    {% if session['Admin'] == False %}
+
+    <h2>Reviews left by users on {{ product["product_name"] }}: </h2>
+    
+    {% if reviews|length < 1 %}
+    <p style="text-align: left;">There are no reviews on {{ product_name }} yet.</p>
+    {% else %}
+    <table class="review table2">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Rating</th>
+                <th>Review</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td><a href="/{{review['username']}}/profile">{{ review["username"] }}</a></td>
+                <td style="text-align: center;">{{ review["rating"] }}</td>
+                <td>{{ review["text_content"] if review["text_content"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% endif %}
+
+</body>
+</html>

@@ -164,5 +164,18 @@ td {
     margin-top: 20px;
 }
 
+.pink {
+    color: #d64161;
+}
+
+a {
+    text-decoration: none;
+    color: initial;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #d64161;
+}
 
 

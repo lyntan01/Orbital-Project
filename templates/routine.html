@@ -8,13 +8,13 @@
 </head>
 <body>
 
-  {% if session['Admin'] == True%}
+  {% if session['Admin'] == True %}
   <div class="admin">
       <h1>Admin users do not have access to My Beauty Routine!</h1>
   </div>
   {% endif %}
 
-  {% if session['Admin'] == False%}
+  {% if session['Admin'] == False %}
     <div style="margin-left: 250px;">
       <h1 style="margin-bottom: 10px;">Day Routine</h1>
       <em><h5 class="pink">View all products in your daytime beauty routine.</h5></em>

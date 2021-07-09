@@ -890,6 +890,35 @@ def addThread():
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
+@app.route('/product/<string:product_name>', methods=['GET', 'POST'])
+def product(product_name):
+    if 'loggedin' in session:
+        if request.method == 'GET':
+                cursor = mysql.connection.cursor()
+                cursor.execute(
+                        'SELECT * FROM `Product` WHERE product_name = %s', (product_name,))
+                # Store product's information into a dictionary
+                product = cursor.fetchone()
+
+                # Check if the product is currently in the user's My Products
+                shelf = checkExistingShelf(session['username'], product_name)
+
+                # Check that product exists, now find all reviews made of product
+                if product:
+                    cursor = mysql.connection.cursor()
+                    cursor.execute(
+                        '''SELECT username, rating, text_content  
+                        FROM Review
+                        WHERE product_name = %s
+                        ORDER BY rating DESC''', (product_name,))
+                    # Store user's reviews into a dictionary
+                    reviews = cursor.fetchall()
+
+        # Show product's page with all the product information and the reviews on the product
+        return render_template('product.html', product=product, shelf=shelf, reviews=reviews)
+    else:
+        return "Error: You are not logged in. Please log in to view this page."
+
 @app.route('/logout')
 def logout():
     if 'loggedin' in session:
