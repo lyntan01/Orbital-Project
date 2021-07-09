@@ -56,7 +56,7 @@
                 <td>{{ review["brand"] }}</td>
                 <td>{{ review["skincare_or_makeup"] }}</td>
                 <td style="text-align: center;">{{ review["rating"] }}</td>
-                <td>{{ review["text_content"] }}</td>
+                <td>{{ review["text_content"] if review["text_content"] }}</td>
             </tr>
             {% endfor %}
         </tbody>
