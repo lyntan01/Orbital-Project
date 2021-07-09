@@ -331,7 +331,7 @@ def profile(username=None):
                 if userInfo:
                     cursor = mysql.connection.cursor()
                     cursor.execute(
-                        '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating 
+                        '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating, r.text_content 
                         FROM Review r, Product p 
                         WHERE r.username = %s AND r.product_name = p.product_name 
                         ORDER BY p.brand, p.skincare_or_makeup, r.rating DESC''', (username,))
@@ -577,8 +577,9 @@ def review(product_name):
                 error_msg = 'You have already left a review for this product!'
             else:
                 # Insert new review into database
+                text_content = request.form['text_content']
                 cursor = mysql.connection.cursor()
-                cursor.execute('INSERT INTO Review VALUES(%s, %s, %s)', (rating, session['username'], product_name,))
+                cursor.execute('INSERT INTO Review VALUES(%s, %s, %s, %s)', (rating, session['username'], product_name, text_content,))
                 mysql.connection.commit()
                 # Update average rating of product in database
                 cursor = mysql.connection.cursor()
