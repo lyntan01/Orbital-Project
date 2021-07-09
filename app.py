@@ -319,31 +319,29 @@ def profile(username=None):
         if username == None:
             username = session['username']
         
-        if session['Admin'] == False:
-            if request.method == 'GET':
+        if request.method == 'GET':
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                    'SELECT * FROM `Member User` WHERE username = %s', (username,))
+            # Store member user's information into a dictionary
+            userInfo = cursor.fetchone()
+
+            # If the profile is of a member user, find all reviews made by user
+            if userInfo:
                 cursor = mysql.connection.cursor()
                 cursor.execute(
-                        'SELECT * FROM `Member User` WHERE username = %s', (username,))
-                # Store user's information into a dictionary
-                userInfo = cursor.fetchone()
-
-                # Check that account exists, now find all reviews made by user
-                if userInfo:
-                    cursor = mysql.connection.cursor()
-                    cursor.execute(
-                        '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating, r.text_content 
-                        FROM Review r, Product p 
-                        WHERE r.username = %s AND r.product_name = p.product_name 
-                        ORDER BY p.brand, p.skincare_or_makeup, r.rating DESC''', (username,))
-                    # Store user's reviews into a dictionary
-                    reviews = cursor.fetchall()
-
-        if session['Admin'] == True:
-            if request.method == 'GET':
+                    '''SELECT r.product_name, p.brand, p.skincare_or_makeup, r.rating, r.text_content 
+                    FROM Review r, Product p 
+                    WHERE r.username = %s AND r.product_name = p.product_name 
+                    ORDER BY p.brand, p.skincare_or_makeup, r.rating DESC''', (username,))
+                # Store user's reviews into a dictionary
+                reviews = cursor.fetchall()
+            # Else if the profile is of an admin user, don't show any reviews
+            else:
                 cursor = mysql.connection.cursor()
                 cursor.execute(
                         'SELECT * FROM `Admin User` WHERE admin_username = %s', (username,))
-                # Store user's information into a dictionary
+                # Store admin user's information into a dictionary
                 userInfo = cursor.fetchone()
                 reviews = None
 

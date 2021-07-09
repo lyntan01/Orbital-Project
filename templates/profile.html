@@ -32,40 +32,42 @@
         </tr>
     </table>
 
-    {% if session['Admin'] == False%}
+    {% if reviews != None %}
 
     <h2>Reviews made by {{ username }}: </h2>
     
-    {% if reviews|length < 1 %}
-    <p style="text-align: left;">{{ username }} has not left any reviews yet.</p>
-    {% else %}
-    <table class="review table2">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Brand</th>
-                <th>Type</th>
-                <th>Rating</th>
-                <th>Review</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for review in reviews %}
-            <tr>
-                <td><a href="/product/{{ review['product_name'] }}">{{ review["product_name"] }}</a></td>
-                <td><a href="/brand/{{ review['brand'] }}">{{ review["brand"] }}</a></td>
-                <td>{{ review["skincare_or_makeup"] }}</td>
-                <td style="text-align: center;">{{ review["rating"] }}</td>
-                <td>{{ review["text_content"] if review["text_content"] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+        {% if reviews|length < 1 %}
+        <p style="text-align: left;">{{ username }} has not left any reviews yet.</p>
+        {% else %}
+        <table class="review table2">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Brand</th>
+                    <th>Type</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td><a href="/product/{{ review['product_name'] }}">{{ review["product_name"] }}</a></td>
+                    <td><a href="/brand/{{ review['brand'] }}">{{ review["brand"] }}</a></td>
+                    <td>{{ review["skincare_or_makeup"] }}</td>
+                    <td style="text-align: center;">{{ review["rating"] }}</td>
+                    <td>{{ review["text_content"] if review["text_content"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
     {% endif %}
 
+    {% if session["username"]==username %}
     <div class="logout">
         <a href="{{ url_for('logout') }}" class="logoutbutton">Logout</a>
     </div>
+    {% endif %}
 </body>
 </html>
