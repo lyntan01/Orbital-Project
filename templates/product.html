@@ -30,11 +30,11 @@
             <th style="vertical-align: top;">Added to My Products? </th>
             <td>
                 {% if shelf[0] == "Shelved" %}
-                    Yes, in your <strong><a href="{{ url_for('shelve') }}">Shelved</a></strong> products
+                    Yes, in your <strong><a href="{{ url_for('shelve') }}" class="pink">Shelved</a></strong> products
                 {% elif shelf[0] == "Currently Using" %}
-                    Yes, in your <strong><a href="{{ url_for('using') }}">Currently Using</a></strong> products
+                    Yes, in your <strong><a href="{{ url_for('using') }}" class="pink">Currently Using</a></strong> products
                 {% elif shelf[0] == "Wish List" %}
-                    Yes, in your <strong><a href="{{ url_for('wishlist') }}">Wish List</a></strong>
+                    Yes, in your <strong><a href="{{ url_for('wishlist') }}" class="pink">Wish List</a></strong>
                 {% else %}
                     No <br>
                     {% if session['Admin'] == False %}

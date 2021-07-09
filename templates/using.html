@@ -59,7 +59,7 @@
           <tr>
             <td>{{product.brand}}</td>
             <td>{{product.skincare_or_makeup}}</td>
-            <td>{{product.product_name}}</td>
+            <td><a href="/product/{{ product.product_name }}">{{ product.product_name }}</a></td>
             <td>{{product.used_date}}</td>
             <td width="200">
               <a href= "/edit/Uses/{{product.product_name}}" class="btn btn-secondary btn-sm">Edit</a>
