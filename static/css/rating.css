@@ -43,3 +43,12 @@
 .rate > label:hover ~ input:checked ~ label {
     color: #d47e97;
 }
+
+form {
+    text-align: center;
+}
+
+textarea {
+    padding: 1em;
+    margin: 20px 0px;
+}

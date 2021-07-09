@@ -182,17 +182,15 @@ def using():
 @app.route('/routine', methods=['GET', 'POST'])
 def routine():
     if 'loggedin' in session:
-        products = []
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('''SELECT DISTINCT brand, skincare_or_makeup, T1.product_name, routine_category, expiry_date, frequency_type, frequency, specific_days
-                            FROM `Uses` AS T1
-                            JOIN `Product` AS T2 
-                            ON T1.product_name = T2.product_name
-                            WHERE T1.username = %s ''', (session['username'],))
-        results = cursor.fetchall()
-        for row in results:
-            products.append(row)
-        return render_template('routine.html', products=products)
+        day_products = []
+        day_products_tuple = getDayRoutineProducts(session['username'])
+        for product in day_products_tuple:
+            day_products.append(product)
+        night_products = []
+        night_products_tuple = getNightRoutineProducts(session['username'])
+        for product in night_products_tuple:
+            night_products.append(product)
+        return render_template('routine.html', day_products=day_products, night_products=night_products)
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
@@ -597,6 +595,31 @@ def review(product_name):
     else:
         return "Error: You are not logged in. Please log in to view this page."
 
+# Helper method that returns the Day Routine products of a member user
+def getDayRoutineProducts(username):
+    cursor = mysql.connection.cursor()
+    cursor.execute('''SELECT p.brand, p.skincare_or_makeup, u.product_name, u.expiry_date, 
+                        u.frequency, u.frequency_type, u.specific_days 
+                    FROM Product p, Uses u
+                    WHERE p.product_name = u.product_name 
+                        AND username = %s
+                        AND (routine_category = 'Day' OR routine_category = 'Both')
+                    ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (username,))
+    return cursor.fetchall()
+
+# Helper method that returns the Night Routine products of a member user
+def getNightRoutineProducts(username):
+    cursor = mysql.connection.cursor()
+    cursor.execute('''SELECT p.brand, p.skincare_or_makeup, u.product_name, u.expiry_date, 
+                        u.frequency, u.frequency_type, u.specific_days 
+                    FROM Product p, Uses u
+                    WHERE p.product_name = u.product_name 
+                        AND username = %s
+                        AND (routine_category = 'Night' OR routine_category = 'Both')
+                    ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (username,))
+    return cursor.fetchall()
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'loggedin' in session:
@@ -618,14 +641,7 @@ def dashboard():
             product["num_days_left"] = num_days_left.days
         
         # Find Day Routine products of user
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT p.brand, u.product_name, u.frequency_type, u.specific_days 
-                        FROM Product p, Uses u
-                        WHERE p.product_name = u.product_name 
-                            AND username = %s
-                            AND (routine_category = 'Day' OR routine_category = 'Both')
-                        ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (session['username'],))
-        day_routine_tuple = cursor.fetchall()
+        day_routine_tuple = getDayRoutineProducts(session['username'])
         day_routine = []
 
         # Filter Day Routine products for that particular day
@@ -646,18 +662,11 @@ def dashboard():
                 if product["frequency_type"] == "Monthly" and day_of_month in specific_days: 
                     day_routine.append(product)
 
-        # Find Day Routine products of user
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT p.brand, u.product_name, u.frequency_type, u.specific_days 
-                        FROM Product p, Uses u
-                        WHERE p.product_name = u.product_name 
-                            AND username = %s
-                            AND (routine_category = 'Night' OR routine_category = 'Both')
-                        ORDER BY FIELD(frequency_type, 'Daily', 'Weekly', 'Monthly')''', (session['username'],))
-        night_routine_tuple = cursor.fetchall()
+        # Find Night Routine products of user
+        night_routine_tuple = getNightRoutineProducts(session['username'])
         night_routine = []
 
-        # Filter Day Routine products for that particular day
+        # Filter Night Routine products for that particular day
         for product in night_routine_tuple:
 
             if product["frequency_type"] == "Daily":
