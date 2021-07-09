@@ -110,3 +110,5 @@ INSERT INTO `Review` VALUES(2, 'kx_ein', 'Born This Way The Natural Nudes Eye Sh
 INSERT INTO `Review` VALUES(5, 'lyntanrambutan', 'Play Color Eyes Rose Wine');
 INSERT INTO `Review` VALUES(3, 'kx_ein', 'Play Color Eyes Rose Wine');
 INSERT INTO `Review` VALUES(5, 'kx_ein', 'Rose Deep Hydration Facial Toner');
+
+ALTER TABLE `Review` ADD text_content TEXT(40000) AFTER product_name;
