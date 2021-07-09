@@ -13,8 +13,6 @@
 
     <h3 style="text-align: center;">B R A N D</h3>
     <h1 style="text-align: center;">{{ brand_name }}</h1>
-
-    {% if session['Admin'] == False %}
     
     {% if products|length < 1 %}
     <div class="noproduct" style="margin-top: 30px;">
@@ -33,10 +31,10 @@
                 <th>Average Rating</th>
                 {% if session['Admin'] == False %}
                     <th style="padding: 1em 0.4em;">Add to<br>My Products</th>
+                    <th></th>
                 {% else %}
                     <th style="padding: 1em 0.4em;">Delete</th>
                 {% endif %}
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -65,14 +63,15 @@
 
                 </td>
 
-                <td width="80" style="text-align: center; padding: 0; text-decoration: underline;">
-                    <a href="{{ url_for('review', product_name=product['product_name']) }}" id="reviewlink">Leave a review</a>
-                </td>
+                {% if session['Admin'] == False %}
+                    <td width="80" style="text-align: center; padding: 0; text-decoration: underline;">
+                        <a href="{{ url_for('review', product_name=product['product_name']) }}" id="reviewlink">Leave a review</a>
+                    </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% endif %}
     {% endif %}
 
 </body>

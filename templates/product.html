@@ -50,13 +50,13 @@
                         <input type="submit" value="Add" style="font-size: 0.5em;"> <!-- onclick="showAlert('Adding a new product to My Products')" -->
                         <input type="text" name="search_term" value="{{ search_term }}" style="display: none;">
                     </form>
+                    {% else %}
+                    My Products not available to Admins.
                     {% endif %}
                 {% endif %}
             </td>
         </tr>
     </table>
-
-    {% if session['Admin'] == False %}
 
     <h2>Reviews left by users on {{ product["product_name"] }}: </h2>
     
@@ -81,7 +81,6 @@
             {% endfor %}
         </tbody>
     </table>
-    {% endif %}
     {% endif %}
 
 </body>
