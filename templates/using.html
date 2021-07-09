@@ -25,7 +25,13 @@
   {% endif %}
   {% endwith %}
 
-  <h1 style="margin-left: 250px;">Currently Using</h1><br>
+  <div style="margin-left: 250px;">
+    <h1 style="margin-bottom: 10px;">Currently Using</h1>
+    <em><h5 class="pink">View all products you are currently using.</h5></em>
+    <br>
+  </div>
+
+  {% if products %}
 
      <div class= 'table' style="text-align: center; width: 100%; position: relative;"">
       <table id="example" class="table table-striped table-bordered" style="text-align: center; width: 80%;">
@@ -64,7 +70,18 @@
         </tbody>
       </table>
     </div>
+    {% else %} 
+    <div style="margin: 30px 125px 0px 275px; text-align: center;">
+      <p>You do not have any products in your Currently Using right now!</p>
+      <br>
+      <p>
+        <a href="{{ url_for('search') }}"><strong class="pink">Search</strong></a> for a product to add to Currently Using, 
+        or shift a product that was in your <a href="{{ url_for('wishlist') }}"><strong class="pink">Wish List</strong></a> to Currently Using if you used it. 
+      </p>
+    </div>
+    {% endif %}
   {% endif %}
+
 </body>
 </html>
 
