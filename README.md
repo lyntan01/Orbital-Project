@@ -25,9 +25,18 @@ This is a web application designed for all users of beauty products as a one-sto
       * [2.2.10 Profile](#2210-profile)
       * [2.2.11 Logout](#2211-logout)
    * [2.3 Private Features : Social](#23-private-features--social)
-   		* [2.3.1 Leave a Review](#231-leave-a-review)
+      * [2.3.1 Leave a Review](#231-leave-a-review)
       * [2.3.2 Leaderboard](#232-leaderboard)
-      * [2.3.3 Forum](#233-forum)
+      * [2.3.3 Forum Thread](#233-forum-thread)
+      * [2.3.4 Add Thread](#234-add-thread)
+      * [2.3.5 Forum Reply](#235-forum-reply)
+      * [2.3.6 View Product](#236-view-product)
+      * [2.3.7 View Brand](#237-view-brand)
+   * [2.4 Admin Features](#24-admin-features)
+      * [2.4.1 Delete Thread](#241-delete-thread)
+      * [2.4.2 Delete Reply](#242-delete-reply)
+      * [2.4.3 Delete Product](#243-delete-product)
+    
 * [3. Contributors](#3-contributors)
 
 ## 1. Introduction
@@ -137,6 +146,12 @@ Users can click on Login in the header of all public pages. Users can also click
 
 New users who are new to this website and do not have an existing account can register for one, by filling in their username, email, first name, last name, gender and password.
 
+* **Admin Authentification**
+
+All username beginning with *Admin* (e.g. Admin1) will be automatically registered as an admin user. To ensure only authorised personnels have access to admin functionalities, those who are attempting to register as admin users will be brought to a page where they would be required to enter a pin (i.e. 1234). (see below)
+
+![Screenshot 2021-07-20 at 12.59.13 AM](/assets/Screenshot%202021-07-20%20at%2012.59.13%20AM.png)
+
 Note:
 * All fields must be filled in to register for an account.
 * Each username can only be used by one user. If user is alerted that username already exists, please use a different username.
@@ -178,9 +193,11 @@ Users can view expiry date reminders for products that the user is currently usi
 
 Users can keep track of their beauty routines and check off the products they have already used by clicking on the product in the checklist. The checkbox beside the product will be pink if it has been used, and white if it has not. 
 
-* **Notifications from forum (Coming soon in Milestone 3)**
+* **Notifications from forum**
 
-Users will be notified of new replies made to forum threads they created. Clicking on the notification will bring the user to the specific forum thread in the notification.
+Users will be notified of new replies made to forum threads they created. Clicking on the notification will bring the user to the specific forum thread in the notification. (see below)
+
+![Screenshot 2021-07-10 at 4.30.23 PM](/assets/Screenshot%202021-07-10%20at%204.30.23%20PM.png)
 
 Navigate back to the feature list: [2.2 Private Features : Personal](#22-private-features--personal)
 
@@ -237,13 +254,13 @@ Users can click on *My Products* in the header of all pages, then on *Currently 
 
 *Functions*:
 
-* **Delete a product from Shelved**
+* **Delete a product from Currently Using**
 
 Users can click on the *Delete* button besides the product they wish to delete from the table. (see below)
 
 ![Currently Using Delete](https://i.imgur.com/WxHtwJz.png)
 
-* **Edit a product in Shelved (refer to 2.2.9 Edit Product for more details)**
+* **Edit a product in Currently Using (refer to 2.2.9 Edit Product for more details)**
 
 Users can click on the *Edit* button to access *Edit*, where they can make the intended amendments. (see below)
 
@@ -472,13 +489,15 @@ Navigate back to the feature list: [2.2 Private Features : Personal](#22-private
   * [2.3.2 Leaderboard](#232-leaderboard)
   * [2.3.3 Forum Thread](#233-forum-thread)
   * [2.3.4 Add Thread](#234-add-thread)
-  * [2.3.3 Forum Reply](#235-forum-reply)
+  * [2.3.5 Forum Reply](#235-forum-reply)
+  * [2.3.6 View Product](#236-view-product)
+  * [2.3.7 View Brand](#237-view-brand)
 
 #### **2.3.1 Leave a Review**
 
 This feature allows users to leave a review on a product, which is an integer rating of the product upon 5.
 
-![review](https://i.imgur.com/ypUHhrb.png)
+![Screenshot 2021-07-10 at 4.40.31 PM](/assets/Screenshot%202021-07-10%20at%204.40.31%20PM.png)
 
 *How to access this feature*: 
 
@@ -490,7 +509,10 @@ Users can click on *Leave a Review* in the rightmost column of the row for the p
 
 * **Leave a review of a product**
 
-Users can leave a review on a product, in the form of a numerical ("stars") rating upon 5. To give, for instance, 4 stars out of 5 stars, users can click on the fourth star from the left and click the *Submit!* button to submit the review.
+Users can leave a review on a product, both in the form of a numerical ("stars") rating upon 5 and a text review. The text review, however, is optional. To give, for instance, 4 stars out of 5 stars and a text review "Cool!", users can click on the fourth star from the left, input "Cool!" in the text box, and click the *Submit!* button to submit the review. (see below)
+
+![Screenshot 2021-07-10 at 4.40.31 PM](/assets/Screenshot%202021-07-10%20at%204.40.31%20PM.png)
+
 Once the review is submitted, users will be redirected back to the search page with the product they just reviews automatically "searched" for them. The average rating of the product will also be updated accordingly. (see below)
 
 ![reviewsuccess](https://i.imgur.com/sYOQ6Fw.png)
@@ -633,8 +655,73 @@ Users can click on the username either at the top of the thread or at the top of
 
 Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
 
+#### **2.3.6 View Products**
+This feature allows users to view the information on and the reviews left by others for any product. (see below)
+
+![Screenshot 2021-07-10 at 4.48.03 PM](/assets/Screenshot%202021-07-10%20at%204.48.03%20PM.png)
+
+*How to access this feature*: 
+Click the name of the product either in *Search* or any *My products* pages. (see below)
+
+![Screenshot 2021-07-10 at 4.51.52 PM](/assets/Screenshot%202021-07-10%20at%204.51.52%20PM.png)
+
+*Function*:
+* **Visit profiles of other users**
+Users can click on the username under the Username column of the reviews table. (see below)
+
+![Screenshot 2021-07-10 at 4.54.14 PM](/assets/Screenshot%202021-07-10%20at%204.54.14%20PM.png)
+
+* **Direct to the *My Products* page where the product is added to**
+If users have already added the product to any of their *My Products* pages, they can click on the name of that page to to be directed there. (see below)
+
+![Screenshot 2021-07-10 at 4.57.50 PM](/assets/Screenshot%202021-07-10%20at%204.57.50%20PM.png)
+
+#### **2.3.7 View Brand**
+This feature allows users to view all the products in the database that belong to a specific brand. (see below)
+
+![Screenshot 2021-07-20 at 12.29.36 AM](/assets/Screenshot%202021-07-20%20at%2012.29.36%20AM.png)
+
+*How to access this feature*: 
+Click the brand name either in *Search* or any *My products* pages. (see below)
+
+![Screenshot 2021-07-10 at 5.04.30 PM](/assets/Screenshot%202021-07-10%20at%205.04.30%20PM.png)
+
+
+### **2.4 Admin Features**
+
+  * [2.4.1 Delete Thread](#241-delete-thread)
+  * [2.4.2 Delete Reply](#242-delete-reply)
+  * [2.4.3 Delete Product](#243-delete-product)
+
+#### **2.4.1 Delete Thread**
+This feature allows admins to delete *any* thread that they deem inappropriate.
+
+*How to access this feature*: 
+
+Admins can click the *Delete* button at the bottom right-hand corner of any thread. (see below)
+
+![Screenshot 2021-07-20 at 12.38.15 AM](/assets/Screenshot%202021-07-20%20at%2012.38.15%20AM.png)
+
+#### **2.4.2 Delete Reply**
+This feature allows admins to delete *any* reply that they deem inappropriate.
+
+*How to access this feature*: 
+
+Admins can delete the *any* thread reply by clicking the *Delete* button at the bottom right-hand corner of the reply. (see below)
+
+![Screenshot 2021-07-20 at 12.41.04 AM](/assets/Screenshot%202021-07-20%20at%2012.41.04%20AM.png)
+
+#### **2.4.3 Delete Product**
+This feature allows admins to delete *any* product they deem unnecessary.
+
+*How to access this feature*: 
+
+Admin can first search for the products under *Search Products*, before clicking the *Delete* button of the corresponding product. (see below)
+
+![Screenshot 2021-07-20 at 12.47.26 AM](/assets/Screenshot%202021-07-20%20at%2012.47.26%20AM.png)
+
 ## 3. Contributors
 
 Xie Ke Xin ([@kekekexinnn](https://github.com/kekekexinnn)) and Lyn Tan ([@lyntanrambutan](https://github.com/lyntanrambutan))
 
-This project is done as an Orbital Project for the AY2020/21 run, for the achievement level of Project Gemini.
+This project is done as an Orbital Project for the AY2020/21 run, for the achievement level of Project Apollo 11.
