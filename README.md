@@ -78,7 +78,7 @@ Private features can only be accessed by users who have logged in. Users who hav
 
 This is the first page users will see when they access the web application. 
 
-![home](https://i.imgur.com/HSQB4XY.jpg)
+![Screenshot 2021-07-20 at 1.04.15 AM](/assets/Screenshot%202021-07-20%20at%201.04.15%20AM.png)
 
 *How to access this feature*: 
 
@@ -86,11 +86,11 @@ Upon accessing the web application, users are automatically brought to this home
 
 *Function*:
 
-* **View the introductory video**
+* **View the Video Demostration & Download the User Guide**
 
-To view the introductory video, click on the Watch Video button on the home page. Users will be brought to a page to view the video. (see below)
+To view the video demostration and download the user guide, click on the *Watch Video Demo* button on the home page. Users will be brought to a page to view the video. (see below)
 
-![video](https://i.imgur.com/lKdmOna.jpg)
+![Screenshot 2021-07-20 at 1.04.29 AM](/assets/Screenshot%202021-07-20%20at%201.04.29%20AM.png)
 
 To navigate back to the home page, click on Back to Home below the video.
 
@@ -116,7 +116,7 @@ Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
 This feature allows existing users to log into their accounts to access private features.
 
-![login](https://i.imgur.com/QzVZ9N5.jpg)
+![Screenshot 2021-07-20 at 1.01.36 AM](/assets/Screenshot%202021-07-20%20at%201.01.36%20AM.png)
 
 *How to access this feature*: 
 
@@ -134,7 +134,7 @@ Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
 This feature allows new users to create an account to access private features.
 
-![register](https://i.imgur.com/vPxbLOK.jpg)
+![Screenshot 2021-07-20 at 1.01.28 AM](/assets/Screenshot%202021-07-20%20at%201.01.28%20AM.png)
 
 *How to access this feature*: 
 
