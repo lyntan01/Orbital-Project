@@ -694,7 +694,7 @@ Click the brand name either in *Search* or any *My products* pages. (see below)
   * [2.4.3 Delete Product](#243-delete-product)
 
 #### **2.4.1 Delete Thread**
-This feature allows admins to delete *any* thread that they deem inappropriate.
+This feature allows admins to delete *any* thread they deem inappropriate.
 
 *How to access this feature*: 
 
@@ -703,7 +703,7 @@ Admins can click the *Delete* button at the bottom right-hand corner of any thre
 ![Screenshot 2021-07-20 at 12.38.15 AM](/assets/Screenshot%202021-07-20%20at%2012.38.15%20AM.png)
 
 #### **2.4.2 Delete Reply**
-This feature allows admins to delete *any* reply that they deem inappropriate.
+This feature allows admins to delete *any* reply they deem inappropriate.
 
 *How to access this feature*: 
 
