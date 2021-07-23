@@ -662,7 +662,7 @@ This feature allows users to view the information on and the reviews left by oth
 ![Screenshot 2021-07-10 at 4.48.03 PM](/assets/Screenshot%202021-07-10%20at%204.48.03%20PM.png)
 
 *How to access this feature*: 
-Click the name of the product either in *Search* or any *My products* pages. (see below)
+Click the name of the product either in *Search*, any *My Products* pages, or the page for that product's brand. (see below)
 
 ![Screenshot 2021-07-10 at 4.51.52 PM](/assets/Screenshot%202021-07-10%20at%204.51.52%20PM.png)
 
@@ -683,7 +683,7 @@ This feature allows users to view all the products in the database that belong t
 ![Screenshot 2021-07-20 at 12.29.36 AM](/assets/Screenshot%202021-07-20%20at%2012.29.36%20AM.png)
 
 *How to access this feature*: 
-Click the brand name either in *Search* or any *My products* pages. (see below)
+Click the brand name either in *Search*, any *My Products* pages or any of that brand's product pages. (see below)
 
 ![Screenshot 2021-07-10 at 5.04.30 PM](/assets/Screenshot%202021-07-10%20at%205.04.30%20PM.png)
 
@@ -713,7 +713,7 @@ Admins can delete the *any* thread reply by clicking the *Delete* button at the 
 ![Screenshot 2021-07-20 at 12.41.04 AM](/assets/Screenshot%202021-07-20%20at%2012.41.04%20AM.png)
 
 #### **2.4.3 Delete Product**
-This feature allows admins to delete *any* product they deem unnecessary.
+This feature allows admins to delete *any* product they deem unnecessary (e.g. duplicate products).
 
 *How to access this feature*: 
 
