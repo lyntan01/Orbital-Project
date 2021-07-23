@@ -148,13 +148,14 @@ New users who are new to this website and do not have an existing account can re
 
 * **Admin Authentification**
 
-All username beginning with *Admin* (e.g. Admin1) will be automatically registered as an admin user. To ensure only authorised personnels have access to admin functionalities, those who are attempting to register as admin users will be brought to a page where they would be required to enter a pin (i.e. 1234). (see below)
+All usernames beginning with *Admin* (e.g. Admin1) will be automatically registered as an admin user. To ensure only authorised personnels have access to admin functionalities, those who are attempting to register as admin users will be brought to a page where they would be required to enter a pin (i.e. 1234). (see below)
 
 ![Screenshot 2021-07-20 at 12.59.13 AM](/assets/Screenshot%202021-07-20%20at%2012.59.13%20AM.png)
 
 Note:
 * All fields must be filled in to register for an account.
 * Each username can only be used by one user. If user is alerted that username already exists, please use a different username.
+* "Admin" prefix is case-sensitive.
 
 Navigate back to the feature list: [2.1 Public Features](#21-public-features)
 
@@ -166,7 +167,7 @@ Navigate back to the feature list: [2.1 Public Features](#21-public-features)
   * [2.2.4 My Products : Currently Using](#224-my-products--currently-using)
   * [2.2.5 My Products : Wish List](#225-my-products--wish-list)
   * [2.2.6 Search Products](#226-search-products)
-  *  [2.2.7 Create Product to Add to Database](#227-create-product-to-add-to-database)
+  * [2.2.7 Create Product to Add to Database](#227-create-product-to-add-to-database)
   * [2.2.8 Add Product to My Products](#228-add-product-to-my-products)
   * [2.2.9 Edit Product](#229-edit-product)
   * [2.2.10 Delete Product from My Products](#2210-delete-product-from-my-products)
@@ -655,7 +656,7 @@ Users can click on the username either at the top of the thread or at the top of
 
 Navigate back to the feature list: [2.3 Private Features : Social](#23-private-features--social)
 
-#### **2.3.6 View Products**
+#### **2.3.6 View Product**
 This feature allows users to view the information on and the reviews left by others for any product. (see below)
 
 ![Screenshot 2021-07-10 at 4.48.03 PM](/assets/Screenshot%202021-07-10%20at%204.48.03%20PM.png)
