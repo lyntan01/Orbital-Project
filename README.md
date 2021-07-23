@@ -170,9 +170,8 @@ Navigate back to the feature list: [2.1 Public Features](#21-public-features)
   * [2.2.7 Create Product to Add to Database](#227-create-product-to-add-to-database)
   * [2.2.8 Add Product to My Products](#228-add-product-to-my-products)
   * [2.2.9 Edit Product](#229-edit-product)
-  * [2.2.10 Delete Product from My Products](#2210-delete-product-from-my-products)
-  * [2.2.11 Profile](#2211-profile)
-  * [2.2.12 Logout](#2212-logout)
+  * [2.2.10 Profile](#2210-profile)
+  * [2.2.11 Logout](#2211-logout)
 
 #### **2.2.1 Dashboard**
 
